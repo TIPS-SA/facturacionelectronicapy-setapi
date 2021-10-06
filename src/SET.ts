@@ -1,4 +1,5 @@
-import soap from 'soap';
+const soap = require('soap');
+//import soap from 'soap';
 import JSZip from "jszip";
 
 class SET {
@@ -55,7 +56,7 @@ class SET {
         console.log("dato a enviar...", args);
 
         console.log("soap", soap);
-        return soap.createClient(url, function(err, client) {
+        return soap.createClient(url, function(err: any, client: any) {
             console.log("client", client);
             client.rEnvioLote(args, function(err: any, result: any) {
                 
