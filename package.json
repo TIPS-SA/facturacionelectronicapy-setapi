@@ -1,0 +1,62 @@
+{
+  "name": "facturacionelectronicapy-setapi",
+  "version": "1.0.0",
+  "description": "Módulo NodeJs para enviar el Archivo XML Firmado para la Facturación Electrónica en Paraguay a la SET",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "",
+    "preversion": "",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marcosjara/facturacionelectronicapy-setapi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/marcosjara/facturacionelectronicapy-setapi/issues"
+  },
+  "homepage": "https://github.com/marcosjara/facturacionelectronicapy-setapi#readme",
+  "files": [
+    "dist/**/*"
+  ],
+  "keywords": [
+    "Envío de XML",
+    "XML",
+    "Facturación Electrónica",
+    "Facturación Electrónica Paraguay",
+    "SET"
+  ],
+  "author": "Marcos Jara",
+  "maintainers": [
+    "<adrianjara@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "crypto-js": "^4.1.1",
+    "jszip": "^3.7.1",
+    "soap": "^0.42.0",
+    "xml2js": "^0.4.23"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.0.2",
+    "@types/sax": "^1.2.3",
+    "@types/soap": "^0.21.0",
+    "@types/xml2js": "^0.4.9",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-mocha": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.4.1",
+    "source-map-support": "^0.5.16",
+    "supertest": "^6.1.3",
+    "ts-node": "^9.1.1",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.7.5"
+  }
+}
