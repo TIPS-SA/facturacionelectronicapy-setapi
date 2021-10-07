@@ -4,7 +4,7 @@
   "description": "Módulo NodeJs para enviar el Archivo XML Firmado para la Facturación Electrónica en Paraguay a la SET",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && copyfiles --up 1 src/**/*.wsdl dist/",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
@@ -38,16 +38,20 @@
   "license": "MIT",
   "dependencies": {
     "crypto-js": "^4.1.1",
+    "file-uri-to-path": "^2.0.0",
     "jszip": "^3.7.1",
+    "node-forge": "^0.10.0",
     "soap": "^0.42.0",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.0.2",
+    "@types/node-forge": "^0.10.5",
     "@types/sax": "^1.2.3",
     "@types/soap": "^0.21.0",
     "@types/xml2js": "^0.4.9",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "copyfiles": "^2.4.1",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-mocha": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
