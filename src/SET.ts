@@ -1,9 +1,11 @@
-const soap = require('soap');
+//const soap = require('soap');
 //import soap from 'soap';
 import JSZip from "jszip";
 import pkcs12 from "./PKCS12";
 import fs from 'fs'; 
-import uri2path from 'file-uri-to-path';
+
+const https = require('https');
+const axios = require('axios');
 
 class SET {
     private cert: any; 
@@ -17,8 +19,6 @@ class SET {
     auth(certificado: any, passphase: string){
         pkcs12.openFile(certificado, passphase);
 
-        //console.log("certificado", pkcs12.getCertificate());
-        //console.log("key", pkcs12.getPrivateKey());
         this.cert = pkcs12.getCertificate();
         this.key = pkcs12.getPrivateKey();
     }
@@ -62,66 +62,42 @@ class SET {
         const zip = new JSZip();
 
         for (let i = 0; i < xmls.length; i++) {
-            const element = xmls[i];
-            zip.file(
-                element
-            );
+            const xml = xmls[i];
+            zip.file(`xml_${i+1}`, xml);
         }
         
         const zipAsBase64 = await zip.generateAsync({ type: "base64" });
+        //fs.writeFileSync(__dirname + '/zipped.zip', zipAsBase64);
 
-        var args = { rEnvioLote: {
-            dId : id,
-            xDE : zipAsBase64
-        }};
-        /*var args = { _xml: "<ns1:MyRootElement xmlns:ns1="http://www.example.com/v1/ns1">
-                        <ChildElement>elementvalue</ChildElement>
-                     </ns1:MyRootElement>"
-            };*/
-
-        //console.log("dato a enviar...", url, args);
-
-        console.log("entro hasta aqui");
-        const oThis = this;
-        const wsdlPath = uri2path("file://localhost/" + __dirname + "/wsdl/recibe_lote.wsdl?wsdl");
-        console.log(wsdlPath);
-        return soap.createClient(wsdlPath, function(err: any, client: any) {
-            if (err) {
-                throw err;
-            }
-            //console.log("client", client);
-            
-            var certFName = __dirname + '/cert_' + oThis.generateRandom(1, 999999);
-            fs.writeFileSync(certFName, oThis.cert);
-
-            var keyFName = __dirname + '/key_' + oThis.generateRandom(1, 999999);
-            fs.writeFileSync(keyFName, oThis.key);
-
-            console.log(certFName, keyFName);
-            client.setSecurity(new soap.ClientSSLSecurity(
-                keyFName,
-                certFName,
-                //'/path/to/ca-cert',  /*or an array of buffer: [fs.readFileSync('/path/to/ca-cert/1', 'utf8'),
-                //'fs.readFileSync('/path/to/ca-cert/2', 'utf8')], */
-                {   /*default request options like */
-                    // strictSSL: true,
-                    // rejectUnauthorized: false,
-                    // hostname: 'some-hostname'
-                    //secureOptions: constants.SSL_OP_NO_TLSv1_2,
-                    // forever: true,
-                },
-            ));
-            fs.rm(certFName, function(e){});
-            fs.rm(keyFName, function(e){});
-
-            console.log("client");
-            console.log("client", client);
-            client.rEnvioLote(args, function(err: any, result: any) {
-                
-                return new Promise(e=>result);
-            });
-            
+        const httpsAgent = new https.Agent({
+            cert: Buffer.from(this.cert, 'utf8'),
+            key: Buffer.from(this.key, 'utf8')
         });
+
+        axios.get(`${url}`, { httpsAgent }).then((respuesta: any) => {
+            //console.log("respuesta", respuesta.data);
+
+
+            let xmls=`<soapenv:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">\n\
+                        <soapenv:Header/>\n\
+                        <soapenv:Body>\n\
+                            <rEnvioLote xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
+                                <dId>${id}</dId>\n\
+                                <xDE>${zipAsBase64}</xDE>\n\
+                            </rEnvioLote>\n\
+                        </soapenv:Body>\n\
+                    </soapenv:Envelope>`;
+            console.log(xmls);
+            axios.post(`${url}`, xmls, { 
+                httpsAgent 
+            }).then((respuesta2: any) => {
+
+                console.log(respuesta2.data);
+            });
+        });
+
+        
+        return new Promise(e=>{});
         
     }
     private generateRandom(min: number, max: number) {  

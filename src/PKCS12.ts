@@ -24,12 +24,28 @@ class PKCS12 {
         for (let i = 0; i < this.p12.safeContents.length; i++) {
             if (this.p12.safeContents[i].safeBags[0].key) {
                 return forge.pki.privateKeyToPem(this.p12.safeContents[i].safeBags[0].key);
+                //return this.p12.safeContents[i].safeBags[0].key;
             }
         }
         return null;
     }
 
     getCertificate() {
+        for (let i = 0; i < this.p12.safeContents.length; i++) {
+            if (this.p12.safeContents[i].safeBags[0].cert) {
+                const b64 = forge.pki.certificateToPem(this.p12.safeContents[i].safeBags[0].cert);
+                //forge.pki.
+                //const l = b64.split('\n');
+                //l.pop();
+                //l.pop();
+                //l[0] = '';
+                return b64;
+            }
+        }
+        return null;
+    }
+
+    getCertificateBK() {
         for (let i = 0; i < this.p12.safeContents.length; i++) {
             if (this.p12.safeContents[i].safeBags[0].cert) {
                 const b64 = forge.pki.certificateToPem(this.p12.safeContents[i].safeBags[0].cert);
