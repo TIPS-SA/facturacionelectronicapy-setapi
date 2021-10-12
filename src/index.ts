@@ -1,15 +1,28 @@
 import set from './SET';
 
 class SetAPI {
-    auth = (certificado: any, passphase: string) => {
-        return set.auth(certificado, passphase);
+    auth = (env: "test" | "prod", certificado: any, passphase: string) => {
+        return set.auth(env, certificado, passphase);
     }
-    recibe = (env: "test" | "prod", xml: string) : Promise<any> => {
-        return set.recibe(env, xml);
+    consulta = (id: number, xml: string) : Promise<any> => {
+        return set.recibe(id, xml);
     }
-    recibeLote = (id: number, env: "test" | "prod", xml: string[]) : Promise<any> => {
-        return set.recibeLote(id, env, xml);
+    consultaRUC = (id: number, ruc: string) : Promise<any> => {
+        return set.consultaRUC(id, ruc);
     }
+    consultaLote = (id: number, xml: string) : Promise<any> => {
+        return set.recibe(id, xml);
+    }
+    recibe = (id: number, xml: string) : Promise<any> => {
+        return set.recibe(id, xml);
+    }
+    recibeLote = (id: number, xml: string[]) : Promise<any> => {
+        return set.recibeLote(id, xml);
+    }
+    evento = (id: number, xml: string) : Promise<any> => {
+        return set.recibe(id, xml);
+    }
+
 }
 
 export default new SetAPI();
