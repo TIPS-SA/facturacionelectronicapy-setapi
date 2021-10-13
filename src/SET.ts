@@ -1,10 +1,6 @@
-//const soap = require('soap');
-//import soap from 'soap';
 import JSZip from "jszip";
 import pkcs12 from "./PKCS12";
-import fs from 'fs'; 
 import xml2js from 'xml2js'; 
-import constants from 'constants';
 
 const https = require('https');
 const axios = require('axios');
@@ -34,9 +30,9 @@ class SET {
     consulta(id: number, xml: string) : Promise<any>{
         return new Promise( async (resolve, reject) => {
             try {
-                let url = 'https://sifen.set.gov.py/de/ws/async/consulta.wsdl?wsdl';
+                let url = 'https://sifen.set.gov.py/de/ws/async/consulta.wsdl';
                 if (this.env == "test") {
-                    url = 'https://sifen-test.set.gov.py/de/ws/async/consulta.wsdl?wsdl';
+                    url = 'https://sifen-test.set.gov.py/de/ws/async/consulta.wsdl';
                 }
         
                 if (!this.cert) {
@@ -67,19 +63,32 @@ class SET {
                 soapXMLData = this.normalizeXML(soapXMLData);
 
                 //console.log(soapXMLData);
-                axios.post(`${url}`, soapXMLData, {headers:
-                    {'Content-Type': 'text/xml'}, 
+                axios.post(`${url}`, soapXMLData, {
+                    headers: {
+                        'User-Agent' : 'tipsCloudFAC',
+                        'Content-Type' : 'application/xml; charset=utf-8'
+                    }, 
                     httpsAgent 
                 }).then((respuestaSuccess: any) => {
         
                     console.log(respuestaSuccess.data);
+                    var parser = new xml2js.Parser({explicitArray: false});
+        
+                    parser.parseStringPromise(respuestaSuccess.data).then(function (result) {
+                        const resultData = result['env:Envelope']['env:Body'];
+                        //delete resultData.$;
+                        resolve(resultData);
+                    })
+
                 }).catch((err:any) => {
                     if (err && err.response && err.response.data) {
                         var xmlResponse = err.response.data;
                         var parser = new xml2js.Parser({explicitArray: false});
         
                         parser.parseStringPromise(xmlResponse).then(function (result) {
-                            resolve(result['env:Envelope']['env:Body']['ns2:rRetEnviDe']['ns2:rProtDe']);
+                            const resultData = result['env:Envelope']['env:Body']['ns2:rRetEnviDe']['ns2:rProtDe'];
+                            delete resultData.$;
+                            resolve(resultData);
                         })
                         .catch(function (err) {
                             throw err;
@@ -96,16 +105,17 @@ class SET {
     }
     
     /**
-     * 
-     * @param xml 
+     * Consulta un lote en la SET
+     * @param id 
+     * @param numeroProtocolo 
      * @returns 
      */
-    consultaLote(id: number, xml: string) : Promise<any>{
+    consultaLote(id: number, numeroProtocolo: number) : Promise<any>{
         return new Promise( async (resolve, reject) => {
             try {
-                let url = 'https://sifen.set.gov.py/de/ws/async/consulta.wsdl?wsdl';
+                let url = 'https://sifen.set.gov.py/de/ws/consltas/consulta-lote.wsdl';
                 if (this.env == "test") {
-                    url = 'https://sifen-test.set.gov.py/de/ws/async/consulta.wsdl?wsdl';
+                    url = 'https://sifen-test.set.gov.py/de/ws/consultas/consulta-lote.wsdl';
                 }
         
                 if (!this.cert) {
@@ -121,27 +131,36 @@ class SET {
                     key: Buffer.from(this.key, 'utf8')
                 });
                 
-                xml = xml.split('\n').slice(1).join('\n');    //Retirar <xml>
-
                 let soapXMLData=`<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
                             <env:Header/>\n\
                             <env:Body>\n\
-                                <rEnviDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
+                                <rEnviConsLoteDe  xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
                                     <dId>${id}</dId>\n\
-                                    <xDe>${xml}</xDe>\n\
-                                </rEnviDe>\n\
+                                    <dProtConsLote>${numeroProtocolo}</dProtConsLote>\n\
+                                </rEnviConsLoteDe>\n\
                             </env:Body>\n\
                         </env:Envelope>\n`;
                 //console.log(soapXMLData);
                 soapXMLData = this.normalizeXML(soapXMLData);
 
                 console.log(soapXMLData);
-                axios.post(`${url}`, soapXMLData, {headers:
-                    {'Content-Type': 'text/xml'}, 
+                axios.post(`${url}`, soapXMLData, {
+                    headers : {
+                        'User-Agent': 'tipsCloudFAC',
+                        'Content-Type' : 'application/xml; charset=utf-8'
+                    }, 
                     httpsAgent 
                 }).then((respuestaSuccess: any) => {
         
                     console.log(respuestaSuccess.data);
+                    var parser = new xml2js.Parser({explicitArray: false});
+        
+                    parser.parseStringPromise(respuestaSuccess.data).then(function (result) {
+                        const resultData = JSON.parse(JSON.stringify(result['env:Envelope']['env:Body']['ns2:rResEnviConsLoteDe']));
+                        delete resultData.$;
+                        resolve(resultData);
+                    })
+
                 }).catch((err:any) => {
                     if (err && err.response && err.response.data) {
                         var xmlResponse = err.response.data;
@@ -188,9 +207,9 @@ class SET {
                 const httpsAgent = new https.Agent({
                     cert: Buffer.from(this.cert, 'utf8'),
                     key: Buffer.from(this.key, 'utf8'),
-                    maxVersion: "TLSv1.2",
+                    /*maxVersion: "TLSv1.2",
                     minVersion: "TLSv1.2",
-                    secureOptions : constants.SSL_OP_NO_SSLv2 | constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_TLSv1 | constants.SSL_OP_NO_TLSv1_1
+                    secureOptions : constants.SSL_OP_NO_SSLv2 | constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_TLSv1 | constants.SSL_OP_NO_TLSv1_1*/
                 });
                 
                 let soapXMLData=`<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
@@ -208,9 +227,9 @@ class SET {
 //                console.log(soapXMLData);
 
                 axios.post(`${url}`, /*'<?xml version="1.0" encoding="UTF-8" ?>' +*/ soapXMLData, {
-                    headers: {
+                    headers : {
                         'User-Agent': 'tipsCloudFAC', 
-                        'Content-Type': 'application/xml; charset=utf-8',
+                        'Content-Type' : 'application/xml; charset=utf-8',
                     },
                     httpsAgent 
                 }).then((respuestaSuccess: any) => {
@@ -219,10 +238,10 @@ class SET {
                     var parser = new xml2js.Parser({explicitArray: false});
         
                     parser.parseStringPromise(respuestaSuccess.data).then(function (result) {
-                        resolve(result['env:Envelope']['env:Body']['ns2:rResEnviConsRUC']);
-                    })
-
-                    //resolve(respuestaSuccess.data['env:Envelope']['env:Body']['ns2:rResEnviConsRUC']);
+                        const resultData = result['env:Envelope']['env:Body']['ns2:rResEnviConsRUC'];
+                        delete resultData.$;
+                        resolve(resultData);
+                    });
                 }).catch((err:any) => {
                     if (err && err.response && err.response.data) {
                         var xmlResponse = err.response.data;
@@ -230,6 +249,7 @@ class SET {
         
                         parser.parseStringPromise(xmlResponse).then(function (result) {
                             resolve(result['env:Envelope']['env:Body']['ns2:rRetEnviDe']['ns2:rProtDe']);
+                            
                         })
                         .catch(function (err) {
                             throw err;
@@ -249,16 +269,16 @@ class SET {
 
     /**
      * Envia el Documento electronico a la SET
-     * https://sifen.set.gov.py/de/ws/sync/recibe.wsdl?wsdl
+     * https://sifen.set.gov.py/de/ws/sync/recibe.wsdl
      * @param xml 
      * @returns 
      */
     recibe(id: number, xml: string) : Promise<any>{
         return new Promise( async (resolve, reject) => {
             try {
-                let url = 'https://sifen.set.gov.py/de/ws/async/recibe.wsdl?wsdl';
+                let url = 'https://sifen.set.gov.py/de/ws/async/recibe.wsdl';
                 if (this.env == "test") {
-                    url = 'https://sifen-test.set.gov.py/de/ws/async/recibe.wsdl?wsdl';
+                    url = 'https://sifen-test.set.gov.py/de/ws/async/recibe.wsdl';
                 }
         
                 if (!this.cert) {
@@ -289,12 +309,24 @@ class SET {
                 soapXMLData = this.normalizeXML(soapXMLData);
 
                 console.log(soapXMLData);
-                axios.post(`${url}`, soapXMLData, {headers:
-                    {'Content-Type': 'text/xml'}, 
+                axios.post(`${url}`, soapXMLData, {
+                    headers : {
+                        'User-Agent' : 'tipsCloudFAC',
+                        'Content-Type' : 'application/xml; charset=utf-8'
+                    }, 
                     httpsAgent 
                 }).then((respuestaSuccess: any) => {
         
                     console.log(respuestaSuccess.data);
+                    var parser = new xml2js.Parser({explicitArray: false});
+        
+                    parser.parseStringPromise(respuestaSuccess.data).then(function (result) {
+                        //resolve(result['env:Envelope']['env:Body']);
+                        const resultData = result['env:Envelope']['env:Body'];
+                        //delete resultData.$;
+                        resolve(resultData);
+                    })
+
                 }).catch((err:any) => {
                     if (err && err.response && err.response.data) {
                         var xmlResponse = err.response.data;
@@ -318,7 +350,7 @@ class SET {
     }
     /**
      * Envia el Documento electronico por lote a la SET
-     * https://sifen.set.gov.py/de/ws/async/recibe-lote.wsdl?wsdl
+     * https://sifen.set.gov.py/de/ws/async/recibe-lote.wsdl
      * @param xmls 
      * @returns 
      */
@@ -333,9 +365,9 @@ class SET {
                     throw new Error("Sólo se permiten un máximo de 50 Documentos electrónicos XML por lote");
                 }
         
-                let url = 'https://sifen.set.gov.py/de/ws/async/recibe-lote.wsdl?wsdl';
+                let url = 'https://sifen.set.gov.py/de/ws/async/recibe-lote.wsdl';
                 if (this.env == "test") {
-                    url = 'https://sifen-test.set.gov.py/de/ws/async/recibe-lote.wsdl?wsdl';
+                    url = 'https://sifen-test.set.gov.py/de/ws/async/recibe-lote.wsdl';
                 }
         
                 if (!this.cert) {
@@ -373,26 +405,38 @@ class SET {
                     //console.log("respuesta", respuesta.data);
         
         
-                let soapXMLData=`<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
+                let soapXMLData=`<?xml version="1.0" encoding="UTF-8"?>\n\
+                        <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
                             <env:Header/>\n\
                             <env:Body>\n\
                                 <rEnvioLote xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
                                     <dId>${id}</dId>\n\
                                     <xDE>${zipAsBase64}</xDE>\n\
                                 </rEnvioLote>\n\
-                                ${rLoteDEXml}
                             </env:Body>\n\
                         </env:Envelope>\n`;
                 //console.log(xmlData);
                 soapXMLData = this.normalizeXML(soapXMLData);
                 
-                console.log(soapXMLData);
-                axios.post(`${url}`, soapXMLData, {headers:
-                    {'Content-Type': 'text/xml'}, 
+                //console.log(soapXMLData);
+                axios.post(`${url}`, soapXMLData, {
+                    headers : { 
+                        'User-Agent' : 'tipsCloudFAC', 
+                        'Content-Type' : 'application/xml; charset=utf-8'
+                    }, 
                     httpsAgent 
                 }).then((respuestaSuccess: any) => {
         
                     console.log(respuestaSuccess.data);
+                    var parser = new xml2js.Parser({explicitArray: false});
+        
+                    parser.parseStringPromise(respuestaSuccess.data).then(function (result) {
+                        //resolve(result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe']);
+                        const resultData = result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe'];
+                        delete resultData.$;
+                        resolve(resultData);
+                    })
+
                 }).catch((err:any) => {
                     if (err && err.response && err.response.data) {
                         var xmlResponse = err.response.data;
@@ -414,6 +458,88 @@ class SET {
             }
         });
     }
+
+    /**
+     * 
+     * @param xml 
+     * @returns 
+     */
+    evento(id: number, xml: string) : Promise<any>{
+        return new Promise( async (resolve, reject) => {
+            try {
+                let url = 'https://sifen.set.gov.py/de/ws/async/consulta.wsdl';
+                if (this.env == "test") {
+                    url = 'https://sifen-test.set.gov.py/de/ws/async/consulta.wsdl';
+                }
+        
+                if (!this.cert) {
+                    throw new Error("Antes debe Autenticarse");
+                }
+        
+                if (!this.key) {
+                    throw new Error("Antes debe autenticarse");
+                }
+        
+                const httpsAgent = new https.Agent({
+                    cert: Buffer.from(this.cert, 'utf8'),
+                    key: Buffer.from(this.key, 'utf8')
+                });
+                
+                xml = xml.split('\n').slice(1).join('\n');    //Retirar <xml>
+
+                let soapXMLData=`<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
+                            <env:Header/>\n\
+                            <env:Body>\n\
+                                <rEnviDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
+                                    <dId>${id}</dId>\n\
+                                    <xDe>${xml}</xDe>\n\
+                                </rEnviDe>\n\
+                            </env:Body>\n\
+                        </env:Envelope>\n`;
+                //console.log(soapXMLData);
+                soapXMLData = this.normalizeXML(soapXMLData);
+
+                //console.log(soapXMLData);
+                axios.post(`${url}`, soapXMLData, {
+                    headers: {
+                        'User-Agent' : 'tipsCloudFAC',
+                        'Content-Type' : 'application/xml; charset=utf-8'
+                    }, 
+                    httpsAgent 
+                }).then((respuestaSuccess: any) => {
+        
+                    console.log(respuestaSuccess.data);
+                    var parser = new xml2js.Parser({explicitArray: false});
+        
+                    parser.parseStringPromise(respuestaSuccess.data).then(function (result) {
+                        ///resolve(result['env:Envelope']['env:Body']);
+                        const resultData = result['env:Envelope']['env:Body'];
+                        //delete resultData.$;
+                        resolve(resultData);
+                    })
+
+                }).catch((err:any) => {
+                    if (err && err.response && err.response.data) {
+                        var xmlResponse = err.response.data;
+                        var parser = new xml2js.Parser({explicitArray: false});
+        
+                        parser.parseStringPromise(xmlResponse).then(function (result) {
+                            resolve(result['env:Envelope']['env:Body']['ns2:rRetEnviDe']['ns2:rProtDe']);
+                        })
+                        .catch(function (err) {
+                            throw err;
+                        });
+                    } else {
+                        throw err;
+                    }
+                });
+                
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
     private normalizeXML(xml: string) {
         xml = xml.split('\r\n').join('');
                 xml = xml.split('\n').join('');

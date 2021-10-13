@@ -1,17 +1,17 @@
 import set from './SET';
 
 class SetAPI {
-    auth = (env: "test" | "prod", certificado: any, passphase: string) => {
+    auth = (env: "test" | "prod", certificado: any, passphase: string, ) => {
         return set.auth(env, certificado, passphase);
     }
     consulta = (id: number, xml: string) : Promise<any> => {
-        return set.recibe(id, xml);
+        return set.consulta(id, xml);
     }
     consultaRUC = (id: number, ruc: string) : Promise<any> => {
         return set.consultaRUC(id, ruc);
     }
-    consultaLote = (id: number, xml: string) : Promise<any> => {
-        return set.recibe(id, xml);
+    consultaLote = (id: number, numeroLote: number) : Promise<any> => {
+        return set.consultaLote(id, numeroLote);
     }
     recibe = (id: number, xml: string) : Promise<any> => {
         return set.recibe(id, xml);
@@ -20,7 +20,7 @@ class SetAPI {
         return set.recibeLote(id, xml);
     }
     evento = (id: number, xml: string) : Promise<any> => {
-        return set.recibe(id, xml);
+        return set.evento(id, xml);
     }
 
 }

@@ -4,7 +4,7 @@
   "description": "Módulo NodeJs para enviar el Archivo XML Firmado para la Facturación Electrónica en Paraguay a la SET",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc && copyfiles --up 1 src/**/*.wsdl dist/",
+    "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
