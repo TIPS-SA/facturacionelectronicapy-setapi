@@ -276,9 +276,9 @@ class SET {
     recibe(id: number, xml: string) : Promise<any>{
         return new Promise( async (resolve, reject) => {
             try {
-                let url = 'https://sifen.set.gov.py/de/ws/async/recibe.wsdl';
+                let url = 'https://sifen.set.gov.py/de/ws/sync/recibe.wsdl';
                 if (this.env == "test") {
-                    url = 'https://sifen-test.set.gov.py/de/ws/async/recibe.wsdl';
+                    url = 'https://sifen-test.set.gov.py/de/ws/sync/recibe.wsdl';
                 }
         
                 if (!this.cert) {
@@ -301,14 +301,14 @@ class SET {
                             <env:Body>\n\
                                 <rEnviDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
                                     <dId>${id}</dId>\n\
-                                    <xDe>${xml}</xDe>\n\
+                                    <xDE>${xml}</xDE>\n\
                                 </rEnviDe>\n\
                             </env:Body>\n\
                         </env:Envelope>\n`;
                 //console.log(soapXMLData);
                 soapXMLData = this.normalizeXML(soapXMLData);
 
-                console.log(soapXMLData);
+                //console.log(soapXMLData);
                 axios.post(`${url}`, soapXMLData, {
                     headers : {
                         'User-Agent' : 'tipsCloudFAC',
@@ -322,8 +322,8 @@ class SET {
         
                     parser.parseStringPromise(respuestaSuccess.data).then(function (result) {
                         //resolve(result['env:Envelope']['env:Body']);
-                        const resultData = result['env:Envelope']['env:Body'];
-                        //delete resultData.$;
+                        const resultData = result['env:Envelope']['env:Body']['ns2:rRetEnviDe'];
+                        delete resultData.$;
                         resolve(resultData);
                     })
 
@@ -382,6 +382,7 @@ class SET {
         
                 let rLoteDEXml = `<rLoteDE>\n`;
                 for (let i = 0; i < xmls.length; i++) {
+                    //const xml = xmls[i];
                     const xml = xmls[i].split('\n').slice(1).join('\n');    //Retirar xml
                     
                     rLoteDEXml += `${xml}\n`;
@@ -418,7 +419,8 @@ class SET {
                 //console.log(xmlData);
                 soapXMLData = this.normalizeXML(soapXMLData);
                 
-                //console.log(soapXMLData);
+                //console.log("soapXMLData SENT", soapXMLData);
+                
                 axios.post(`${url}`, soapXMLData, {
                     headers : { 
                         'User-Agent' : 'tipsCloudFAC', 
@@ -427,7 +429,7 @@ class SET {
                     httpsAgent 
                 }).then((respuestaSuccess: any) => {
         
-                    console.log(respuestaSuccess.data);
+                    //console.log(respuestaSuccess.data);
                     var parser = new xml2js.Parser({explicitArray: false});
         
                     parser.parseStringPromise(respuestaSuccess.data).then(function (result) {
@@ -499,7 +501,7 @@ class SET {
                 //console.log(soapXMLData);
                 soapXMLData = this.normalizeXML(soapXMLData);
 
-                //console.log(soapXMLData);
+                console.log("soapXMLData SENT", soapXMLData);
                 axios.post(`${url}`, soapXMLData, {
                     headers: {
                         'User-Agent' : 'tipsCloudFAC',
