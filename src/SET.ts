@@ -435,6 +435,9 @@ class SET {
                     parser.parseStringPromise(respuestaSuccess.data).then(function (result) {
                         //resolve(result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe']);
                         const resultData = result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe'];
+                        resultData['id'] = id;
+                        //result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe']['id'] = id;
+                        //const resultData = result['env:Envelope']['env:Body'];
                         delete resultData.$;
                         resolve(resultData);
                     })
@@ -445,7 +448,8 @@ class SET {
                         var parser = new xml2js.Parser({explicitArray: false});
         
                         parser.parseStringPromise(xmlResponse).then(function (result) {
-                            resolve(result['env:Envelope']['env:Body']['ns2:rRetEnviDe']['ns2:rProtDe']);
+                            const resultData = result['env:Envelope']['env:Body']['ns2:rRetEnviDe']['ns2:rProtDe'];
+                            resolve(resultData);
                         })
                         .catch(function (err) {
                             throw err;
