@@ -152,11 +152,12 @@ class SET {
                     httpsAgent 
                 }).then((respuestaSuccess: any) => {
         
-                    console.log(respuestaSuccess.data);
+                    //console.log(respuestaSuccess.data);
                     var parser = new xml2js.Parser({explicitArray: false});
         
                     parser.parseStringPromise(respuestaSuccess.data).then(function (result) {
                         const resultData = JSON.parse(JSON.stringify(result['env:Envelope']['env:Body']['ns2:rResEnviConsLoteDe']));
+                        resultData.id = id;
                         delete resultData.$;
                         resolve(resultData);
                     })
