@@ -72,7 +72,6 @@ class SET {
             httpsAgent,
           })
           .then((respuestaSuccess: any) => {
-            console.log(respuestaSuccess.data);
             var parser = new xml2js.Parser({ explicitArray: false });
 
             parser
@@ -151,7 +150,6 @@ class SET {
         //console.log(soapXMLData);
         soapXMLData = this.normalizeXML(soapXMLData);
 
-        console.log(soapXMLData);
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
@@ -353,7 +351,6 @@ class SET {
             httpsAgent,
           })
           .then((respuestaSuccess: any) => {
-            console.log(respuestaSuccess.data);
             var parser = new xml2js.Parser({ explicitArray: false });
 
             parser
@@ -562,7 +559,6 @@ class SET {
         //console.log(soapXMLData);
         soapXMLData = this.normalizeXML(soapXMLData);
 
-        console.log("soapXMLData SENT", soapXMLData);
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
@@ -572,7 +568,6 @@ class SET {
             httpsAgent,
           })
           .then((respuestaSuccess: any) => {
-            console.log(respuestaSuccess.data);
             var parser = new xml2js.Parser({ explicitArray: false });
 
             parser
