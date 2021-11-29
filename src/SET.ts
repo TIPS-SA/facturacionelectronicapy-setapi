@@ -23,7 +23,8 @@ class SET {
   }
 
   /**
-   *
+   * Consulta un Documento Electronico
+   * 
    * @param xml
    * @returns
    */
@@ -66,7 +67,7 @@ class SET {
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
-              "User-Agent": "tipsCloudFAC",
+              "User-Agent": "facturaSend",
               "Content-Type": "application/xml; charset=utf-8",
             },
             httpsAgent,
@@ -91,9 +92,7 @@ class SET {
                 .parseStringPromise(xmlResponse)
                 .then(function (result) {
                   const resultData =
-                    result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"][
-                      "ns2:rProtDe"
-                    ];
+                    result["env:Envelope"]["env:Body"];
                   delete resultData.$;
                   resolve(resultData);
                 })
@@ -141,7 +140,7 @@ class SET {
         let soapXMLData = `<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
                             <env:Header/>\n\
                             <env:Body>\n\
-                                <rEnviConsLoteDe  xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
+                                <rEnviConsLoteDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
                                     <dId>${id}</dId>\n\
                                     <dProtConsLote>${numeroProtocolo}</dProtConsLote>\n\
                                 </rEnviConsLoteDe>\n\
@@ -153,7 +152,7 @@ class SET {
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
-              "User-Agent": "tipsCloudFAC",
+              "User-Agent": "facturaSend",
               "Content-Type": "application/xml; charset=utf-8",
             },
             httpsAgent,
@@ -167,11 +166,11 @@ class SET {
               .then(function (result) {
                 const resultData = JSON.parse(
                   JSON.stringify(
-                    result["env:Envelope"]["env:Body"]["ns2:rResEnviConsLoteDe"]
+                    result["env:Envelope"]["env:Body"]
                   )
                 );
                 resultData.id = id;
-                delete resultData.$;
+
                 resolve(resultData);
               });
           })
@@ -184,9 +183,7 @@ class SET {
                 .parseStringPromise(xmlResponse)
                 .then(function (result) {
                   resolve(
-                    result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"][
-                      "ns2:rProtDe"
-                    ]
+                    result["env:Envelope"]["env:Body"]
                   );
                 })
                 .catch(function (err) {
@@ -252,7 +249,7 @@ class SET {
             /*'<?xml version="1.0" encoding="UTF-8" ?>' +*/ soapXMLData,
             {
               headers: {
-                "User-Agent": "tipsCloudFAC",
+                "User-Agent": "facturaSend",
                 "Content-Type": "application/xml; charset=utf-8",
               },
               httpsAgent,
@@ -266,8 +263,8 @@ class SET {
               .parseStringPromise(respuestaSuccess.data)
               .then(function (result) {
                 const resultData =
-                  result["env:Envelope"]["env:Body"]["ns2:rResEnviConsRUC"];
-                delete resultData.$;
+                  result["env:Envelope"]["env:Body"]
+                
                 resolve(resultData);
               });
           })
@@ -329,23 +326,24 @@ class SET {
 
         xml = xml.split("\n").slice(1).join("\n"); //Retirar <xml>
 
-        let soapXMLData = `<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
+        let soapXMLData = `<?xml version="1.0" encoding="UTF-8"?>\n\
+                        <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
                             <env:Header/>\n\
                             <env:Body>\n\
                                 <rEnviDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
                                     <dId>${id}</dId>\n\
-                                    <xDE>${xml}</xDE>\n\
+                                    <xDe>${xml}</xDe>\n\
                                 </rEnviDe>\n\
                             </env:Body>\n\
                         </env:Envelope>\n`;
         //console.log(soapXMLData);
         soapXMLData = this.normalizeXML(soapXMLData);
 
-        //console.log(soapXMLData);
+        console.log("--->", url, soapXMLData);
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
-              "User-Agent": "tipsCloudFAC",
+              "User-Agent": "facturaSend",
               "Content-Type": "application/xml; charset=utf-8",
             },
             httpsAgent,
@@ -358,8 +356,10 @@ class SET {
               .then(function (result) {
                 //resolve(result['env:Envelope']['env:Body']);
                 const resultData =
-                  result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"];
-                delete resultData.$;
+                  //result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"];
+                  result["env:Envelope"]["env:Body"];
+                //delete resultData.$;
+                resultData["id"] = id;
                 resolve(resultData);
               });
           })
@@ -369,17 +369,17 @@ class SET {
               var parser = new xml2js.Parser({ explicitArray: false });
 
               parser
-                .parseStringPromise(xmlResponse)
-                .then(function (result) {
-                  resolve(
-                    result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"][
-                      "ns2:rProtDe"
-                    ]
-                  );
-                })
-                .catch(function (err) {
-                  throw err;
-                });
+              .parseStringPromise(xmlResponse)
+              .then(function (result) {
+                const resultData = result["env:Envelope"]["env:Body"];
+                resultData["id"] = id;
+                resolve(
+                  resultData
+                );
+              })
+              .catch(function (err) {
+                throw err;
+              });
             } else {
               throw err;
             }
@@ -389,6 +389,8 @@ class SET {
       }
     });
   }
+
+
   /**
    * Envia el Documento electronico por lote a la SET
    * https://sifen.set.gov.py/de/ws/async/recibe-lote.wsdl
@@ -466,11 +468,12 @@ class SET {
         soapXMLData = this.normalizeXML(soapXMLData);
 
         //console.log("soapXMLData SENT", soapXMLData);
+        console.log("--->", url, soapXMLData);
 
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
-              "User-Agent": "tipsCloudFAC",
+              "User-Agent": "facturaSend",
               "Content-Type": "application/xml; charset=utf-8",
             },
             httpsAgent,
@@ -484,7 +487,8 @@ class SET {
               .then(function (result) {
                 //resolve(result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe']);
                 const resultData =
-                  result["env:Envelope"]["env:Body"]["ns2:rResEnviLoteDe"];
+                  //result["env:Envelope"]["env:Body"]["ns2:rResEnviLoteDe"];
+                  result["env:Envelope"]["env:Body"];
                 resultData["id"] = id;
                 //result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe']['id'] = id;
                 //const resultData = result['env:Envelope']['env:Body'];
@@ -498,17 +502,19 @@ class SET {
               var parser = new xml2js.Parser({ explicitArray: false });
 
               parser
-                .parseStringPromise(xmlResponse)
-                .then(function (result) {
-                  const resultData =
-                    result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"][
-                      "ns2:rProtDe"
-                    ];
-                  resolve(resultData);
-                })
-                .catch(function (err) {
-                  throw err;
-                });
+              .parseStringPromise(xmlResponse)
+              .then(function (result) {
+                const resultData =
+                  /*result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"][
+                    "ns2:rProtDe"
+                  ];*/
+                  result["env:Envelope"]["env:Body"];
+                resultData["id"] = id;
+                resolve(resultData);
+              })
+              .catch(function (err) {
+                throw err;
+              });
             } else {
               throw err;
             }
@@ -562,7 +568,7 @@ class SET {
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
-              "User-Agent": "tipsCloudFAC",
+              "User-Agent": "facturaSend",
               "Content-Type": "application/xml; charset=utf-8",
             },
             httpsAgent,
@@ -588,9 +594,7 @@ class SET {
                 .parseStringPromise(xmlResponse)
                 .then(function (result) {
                   resolve(
-                    result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"][
-                      "ns2:rProtDe"
-                    ]
+                    result["env:Envelope"]["env:Body"]
                   );
                 })
                 .catch(function (err) {
