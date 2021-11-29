@@ -24,7 +24,7 @@ class SET {
 
   /**
    * Consulta un Documento Electronico
-   * 
+   *
    * @param xml
    * @returns
    */
@@ -91,8 +91,7 @@ class SET {
               parser
                 .parseStringPromise(xmlResponse)
                 .then(function (result) {
-                  const resultData =
-                    result["env:Envelope"]["env:Body"];
+                  const resultData = result["env:Envelope"]["env:Body"];
                   delete resultData.$;
                   resolve(resultData);
                 })
@@ -165,9 +164,7 @@ class SET {
               .parseStringPromise(respuestaSuccess.data)
               .then(function (result) {
                 const resultData = JSON.parse(
-                  JSON.stringify(
-                    result["env:Envelope"]["env:Body"]
-                  )
+                  JSON.stringify(result["env:Envelope"]["env:Body"])
                 );
                 resultData.id = id;
 
@@ -182,9 +179,7 @@ class SET {
               parser
                 .parseStringPromise(xmlResponse)
                 .then(function (result) {
-                  resolve(
-                    result["env:Envelope"]["env:Body"]
-                  );
+                  resolve(result["env:Envelope"]["env:Body"]);
                 })
                 .catch(function (err) {
                   throw err;
@@ -262,9 +257,8 @@ class SET {
             parser
               .parseStringPromise(respuestaSuccess.data)
               .then(function (result) {
-                const resultData =
-                  result["env:Envelope"]["env:Body"]
-                
+                const resultData = result["env:Envelope"]["env:Body"];
+
                 resolve(resultData);
               });
           })
@@ -369,17 +363,15 @@ class SET {
               var parser = new xml2js.Parser({ explicitArray: false });
 
               parser
-              .parseStringPromise(xmlResponse)
-              .then(function (result) {
-                const resultData = result["env:Envelope"]["env:Body"];
-                resultData["id"] = id;
-                resolve(
-                  resultData
-                );
-              })
-              .catch(function (err) {
-                throw err;
-              });
+                .parseStringPromise(xmlResponse)
+                .then(function (result) {
+                  const resultData = result["env:Envelope"]["env:Body"];
+                  resultData["id"] = id;
+                  resolve(resultData);
+                })
+                .catch(function (err) {
+                  throw err;
+                });
             } else {
               throw err;
             }
@@ -389,7 +381,6 @@ class SET {
       }
     });
   }
-
 
   /**
    * Envia el Documento electronico por lote a la SET
@@ -502,19 +493,19 @@ class SET {
               var parser = new xml2js.Parser({ explicitArray: false });
 
               parser
-              .parseStringPromise(xmlResponse)
-              .then(function (result) {
-                const resultData =
-                  /*result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"][
+                .parseStringPromise(xmlResponse)
+                .then(function (result) {
+                  const resultData =
+                    /*result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"][
                     "ns2:rProtDe"
                   ];*/
-                  result["env:Envelope"]["env:Body"];
-                resultData["id"] = id;
-                resolve(resultData);
-              })
-              .catch(function (err) {
-                throw err;
-              });
+                    result["env:Envelope"]["env:Body"];
+                  resultData["id"] = id;
+                  resolve(resultData);
+                })
+                .catch(function (err) {
+                  throw err;
+                });
             } else {
               throw err;
             }
@@ -593,9 +584,7 @@ class SET {
               parser
                 .parseStringPromise(xmlResponse)
                 .then(function (result) {
-                  resolve(
-                    result["env:Envelope"]["env:Body"]
-                  );
+                  resolve(result["env:Envelope"]["env:Body"]);
                 })
                 .catch(function (err) {
                   throw err;
