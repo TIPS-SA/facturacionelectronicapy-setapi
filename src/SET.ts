@@ -339,7 +339,7 @@ class SET {
         //console.log(soapXMLData);
         soapXMLData = this.normalizeXML(soapXMLData);
 
-        console.log("--->", url, soapXMLData);
+        //console.log("--->", url, soapXMLData);
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
@@ -468,7 +468,7 @@ class SET {
         soapXMLData = this.normalizeXML(soapXMLData);
 
         //console.log("soapXMLData SENT", soapXMLData);
-        console.log("--->", url, soapXMLData);
+        //console.log("--->", url, soapXMLData);
 
         axios
           .post(`${url}`, soapXMLData, {
