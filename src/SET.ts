@@ -23,17 +23,17 @@ class SET {
   }
 
   /**
-   * Consulta un Documento Electronico
+   * Consulta un Documento Electronico por CDC
    *
-   * @param xml
+   * @param cdc
    * @returns
    */
-  consulta(id: number, xml: string): Promise<any> {
+  consulta(id: number, cdc: string): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
-        let url = "https://sifen.set.gov.py/de/ws/async/consulta.wsdl";
+        let url = "https://sifen.set.gov.py/de/ws/consultas/consulta.wsdl";
         if (this.env == "test") {
-          url = "https://sifen-test.set.gov.py/de/ws/async/consulta.wsdl";
+          url = "https://sifen-test.set.gov.py/de/ws/consultas/consulta.wsdl";
         }
 
         if (!this.cert) {
@@ -49,14 +49,14 @@ class SET {
           key: Buffer.from(this.key, "utf8"),
         });
 
-        xml = xml.split("\n").slice(1).join("\n"); //Retirar <xml>
+        //cdc = cdc.split("\n").slice(1).join("\n"); //Retirar <xml>
 
         let soapXMLData = `<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
                             <env:Header/>\n\
                             <env:Body>\n\
                                 <rEnviDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
                                     <dId>${id}</dId>\n\
-                                    <xDe>${xml}</xDe>\n\
+                                    <dCDC>${cdc}</dCDC>\n\
                                 </rEnviDe>\n\
                             </env:Body>\n\
                         </env:Envelope>\n`;
@@ -80,6 +80,7 @@ class SET {
               .then(function (result) {
                 const resultData = result["env:Envelope"]["env:Body"];
                 //delete resultData.$;
+                resultData.id = id;
                 resolve(resultData);
               });
           })
@@ -92,7 +93,7 @@ class SET {
                 .parseStringPromise(xmlResponse)
                 .then(function (result) {
                   const resultData = result["env:Envelope"]["env:Body"];
-                  delete resultData.$;
+                  resultData.id = id;
                   resolve(resultData);
                 })
                 .catch(function (err) {
@@ -258,7 +259,7 @@ class SET {
               .parseStringPromise(respuestaSuccess.data)
               .then(function (result) {
                 const resultData = result["env:Envelope"]["env:Body"];
-
+                resultData.id = id;
                 resolve(resultData);
               });
           })
@@ -270,10 +271,10 @@ class SET {
               parser
                 .parseStringPromise(xmlResponse)
                 .then(function (result) {
+                  const resultData = result["env:Envelope"]["env:Body"];
+                  resultData.id = id;
                   resolve(
-                    result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"][
-                      "ns2:rProtDe"
-                    ]
+                    resultData
                   );
                 })
                 .catch(function (err) {
@@ -282,8 +283,8 @@ class SET {
             } else {
               throw err;
             }
-            console.log(err);
-            console.log(err.toJSON());
+            //console.log(err);
+            //console.log(err.toJSON());
           });
       } catch (error) {
         reject(error);
@@ -326,14 +327,13 @@ class SET {
                             <env:Body>\n\
                                 <rEnviDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
                                     <dId>${id}</dId>\n\
-                                    <xDe>${xml}</xDe>\n\
+                                    <xDE>${xml}</xDE>\n\
                                 </rEnviDe>\n\
                             </env:Body>\n\
                         </env:Envelope>\n`;
         //console.log(soapXMLData);
         soapXMLData = this.normalizeXML(soapXMLData);
 
-        //console.log("--->", url, soapXMLData);
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
