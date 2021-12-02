@@ -557,15 +557,16 @@ class SET {
         //xml = xml.split("\n").slice(1).join("\n"); //Retirar <xml>
         xml = xml.replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?>', '');
         
-        let soapXMLData = `<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
-                            <env:Header/>\n\
-                            <env:Body>\n\
-                                <rEnviEventoDe xmlns="http://ekuatia.set.gov.py/sifen/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n\
-                                  <dId>${id}</dId>\n\
-                                  <dEvReg>${xml}</dEvReg>\n\
-                                </rEnviEventoDe>\n\
-                            </env:Body>\n\
-                        </env:Envelope>\n`;
+        let soapXMLData = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                          <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
+                              <env:Header/>\n\
+                              <env:Body>\n\
+                                  <rEnviEventoDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
+                                    <dId>${id}</dId>\n\
+                                    <dEvReg>${xml}</dEvReg>\n\
+                                  </rEnviEventoDe>\n\
+                              </env:Body>\n\
+                          </env:Envelope>\n`;
         soapXMLData = this.normalizeXML(soapXMLData);
         console.log(soapXMLData);
 
