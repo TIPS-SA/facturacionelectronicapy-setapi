@@ -49,23 +49,32 @@ class SET {
           key: Buffer.from(this.key, "utf8"),
         });
 
-        //cdc = cdc.split("\n").slice(1).join("\n"); //Retirar <xml>
-
-        let soapXMLData = `<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
+        let soapXMLData2 = `<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
                             <env:Header/>\n\
                             <env:Body>\n\
-                                <rEnviDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
+                                <rEnviConsDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
                                     <dId>${id}</dId>\n\
                                     <dCDC>${cdc}</dCDC>\n\
-                                </rEnviDe>\n\
+                                </rEnviConsDe>\n\
                             </env:Body>\n\
                         </env:Envelope>\n`;
-        //console.log(soapXMLData);
+        let soapXMLData = `<?xml version="1.0" encoding="UTF-8"?>\n\
+                        <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
+                            <env:Header/>\n\
+                            <env:Body>\n\
+                                <rEnviConsDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
+                                  <dId>${id}</dId>\n\
+                                  <dCDC>${cdc}</dCDC>\n\
+                                </rEnviConsDe>\n\
+                            </env:Body>\n\
+                        </env:Envelope>\n`;                        
         soapXMLData = this.normalizeXML(soapXMLData);
 
-        //console.log(soapXMLData);
+        console.log(soapXMLData);
         axios
-          .post(`${url}`, soapXMLData, {
+          .post(`${url}`, 
+          soapXMLData, 
+          {
             headers: {
               "User-Agent": "facturaSend",
               "Content-Type": "application/xml; charset=utf-8",
@@ -73,6 +82,7 @@ class SET {
             httpsAgent,
           })
           .then((respuestaSuccess: any) => {
+            
             var parser = new xml2js.Parser({ explicitArray: false });
 
             parser
@@ -85,6 +95,7 @@ class SET {
               });
           })
           .catch((err: any) => {
+            console.log("Error.... ", err);
             if (err && err.response && err.response.data) {
               var xmlResponse = err.response.data;
               var parser = new xml2js.Parser({ explicitArray: false });
@@ -242,7 +253,7 @@ class SET {
         axios
           .post(
             `${url}`,
-            /*'<?xml version="1.0" encoding="UTF-8" ?>' +*/ soapXMLData,
+            soapXMLData,
             {
               headers: {
                 "User-Agent": "facturaSend",
@@ -522,11 +533,12 @@ class SET {
    * @returns
    */
   evento(id: number, xml: string): Promise<any> {
+
     return new Promise(async (resolve, reject) => {
       try {
-        let url = "https://sifen.set.gov.py/de/ws/async/consulta.wsdl";
+        let url = "https://sifen.set.gov.py/de/ws/eventos/evento.wsdl";
         if (this.env == "test") {
-          url = "https://sifen-test.set.gov.py/de/ws/async/consulta.wsdl";
+          url = "https://sifen-test.set.gov.py/de/ws/eventos/evento.wsdl";
         }
 
         if (!this.cert) {
@@ -542,19 +554,20 @@ class SET {
           key: Buffer.from(this.key, "utf8"),
         });
 
-        xml = xml.split("\n").slice(1).join("\n"); //Retirar <xml>
-
+        //xml = xml.split("\n").slice(1).join("\n"); //Retirar <xml>
+        xml = xml.replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?>', '');
+        
         let soapXMLData = `<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
                             <env:Header/>\n\
                             <env:Body>\n\
-                                <rEnviDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
-                                    <dId>${id}</dId>\n\
-                                    <xDe>${xml}</xDe>\n\
-                                </rEnviDe>\n\
+                                <rEnviEventoDe xmlns="http://ekuatia.set.gov.py/sifen/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n\
+                                  <dId>${id}</dId>\n\
+                                  <dEvReg>${xml}</dEvReg>\n\
+                                </rEnviEventoDe>\n\
                             </env:Body>\n\
                         </env:Envelope>\n`;
-        //console.log(soapXMLData);
         soapXMLData = this.normalizeXML(soapXMLData);
+        console.log(soapXMLData);
 
         axios
           .post(`${url}`, soapXMLData, {
@@ -572,11 +585,13 @@ class SET {
               .then(function (result) {
                 ///resolve(result['env:Envelope']['env:Body']);
                 const resultData = result["env:Envelope"]["env:Body"];
+                resultData.id = id;
                 //delete resultData.$;
                 resolve(resultData);
               });
           })
           .catch((err: any) => {
+            console.log("error: ", err);
             if (err && err.response && err.response.data) {
               var xmlResponse = err.response.data;
               var parser = new xml2js.Parser({ explicitArray: false });
@@ -584,7 +599,9 @@ class SET {
               parser
                 .parseStringPromise(xmlResponse)
                 .then(function (result) {
-                  resolve(result["env:Envelope"]["env:Body"]);
+                  const resultData = result["env:Envelope"]["env:Body"];
+                  resultData.id = id;
+                  resolve(resultData);
                 })
                 .catch(function (err) {
                   throw err;
