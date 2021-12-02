@@ -323,7 +323,7 @@ class SET {
                                 </rEnviDe>\n\
                             </env:Body>\n\
                         </env:Envelope>\n`;
-        
+
         soapXMLData = this.normalizeXML(soapXMLData);
         //console.log(soapXMLData);
         axios
@@ -380,7 +380,7 @@ class SET {
    * @param xmls
    * @returns
    */
-  recibeLote(id: number, xmls: string[]): Promise<any> {  
+  recibeLote(id: number, xmls: string[]): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
         if (xmls.length == 0) {
@@ -514,7 +514,6 @@ class SET {
    * @returns
    */
   async evento(id: number, xml: string): Promise<any> {
-
     return new Promise(async (resolve, reject) => {
       try {
         let url = "https://sifen.set.gov.py/de/ws/eventos/evento.wsdl";
@@ -536,7 +535,7 @@ class SET {
         });
 
         let soapXMLData = this.normalizeXML(xml); //Para el evento, el xml ya viene con SoapData
-//        console.log(soapXMLData);
+        //        console.log(soapXMLData);
 
         axios
           .post(`${url}`, soapXMLData, {
