@@ -67,14 +67,12 @@ class SET {
                                   <dCDC>${cdc}</dCDC>\n\
                                 </rEnviConsDe>\n\
                             </env:Body>\n\
-                        </env:Envelope>\n`;                        
+                        </env:Envelope>\n`;
         soapXMLData = this.normalizeXML(soapXMLData);
 
         console.log(soapXMLData);
         axios
-          .post(`${url}`, 
-          soapXMLData, 
-          {
+          .post(`${url}`, soapXMLData, {
             headers: {
               "User-Agent": "facturaSend",
               "Content-Type": "application/xml; charset=utf-8",
@@ -82,7 +80,6 @@ class SET {
             httpsAgent,
           })
           .then((respuestaSuccess: any) => {
-            
             var parser = new xml2js.Parser({ explicitArray: false });
 
             parser
@@ -251,17 +248,13 @@ class SET {
         //                console.log(soapXMLData);
 
         axios
-          .post(
-            `${url}`,
-            soapXMLData,
-            {
-              headers: {
-                "User-Agent": "facturaSend",
-                "Content-Type": "application/xml; charset=utf-8",
-              },
-              httpsAgent,
-            }
-          )
+          .post(`${url}`, soapXMLData, {
+            headers: {
+              "User-Agent": "facturaSend",
+              "Content-Type": "application/xml; charset=utf-8",
+            },
+            httpsAgent,
+          })
           .then((respuestaSuccess: any) => {
             //console.log(respuestaSuccess.data);
             var parser = new xml2js.Parser({ explicitArray: false });
@@ -284,9 +277,7 @@ class SET {
                 .then(function (result) {
                   const resultData = result["env:Envelope"]["env:Body"];
                   resultData.id = id;
-                  resolve(
-                    resultData
-                  );
+                  resolve(resultData);
                 })
                 .catch(function (err) {
                   throw err;
@@ -533,7 +524,6 @@ class SET {
    * @returns
    */
   evento(id: number, xml: string): Promise<any> {
-
     return new Promise(async (resolve, reject) => {
       try {
         let url = "https://sifen.set.gov.py/de/ws/eventos/evento.wsdl";
@@ -555,8 +545,11 @@ class SET {
         });
 
         //xml = xml.split("\n").slice(1).join("\n"); //Retirar <xml>
-        xml = xml.replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?>', '');
-        
+        xml = xml.replace(
+          '<?xml version="1.0" encoding="UTF-8" standalone="no"?>',
+          ""
+        );
+
         let soapXMLData = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                           <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
                               <env:Header/>\n\
