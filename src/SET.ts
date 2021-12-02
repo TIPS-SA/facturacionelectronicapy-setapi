@@ -49,23 +49,14 @@ class SET {
           key: Buffer.from(this.key, "utf8"),
         });
 
-        let soapXMLData2 = `<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
-                            <env:Header/>\n\
-                            <env:Body>\n\
-                                <rEnviConsDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
-                                    <dId>${id}</dId>\n\
-                                    <dCDC>${cdc}</dCDC>\n\
-                                </rEnviConsDe>\n\
-                            </env:Body>\n\
-                        </env:Envelope>\n`;
         let soapXMLData = `<?xml version="1.0" encoding="UTF-8"?>\n\
                         <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
                             <env:Header/>\n\
                             <env:Body>\n\
-                                <rEnviConsDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
+                                <rEnviConsDeRequest xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
                                   <dId>${id}</dId>\n\
                                   <dCDC>${cdc}</dCDC>\n\
-                                </rEnviConsDe>\n\
+                                </rEnviConsDeRequest>\n\
                             </env:Body>\n\
                         </env:Envelope>\n`;
         soapXMLData = this.normalizeXML(soapXMLData);
@@ -92,7 +83,6 @@ class SET {
               });
           })
           .catch((err: any) => {
-            console.log("Error.... ", err);
             if (err && err.response && err.response.data) {
               var xmlResponse = err.response.data;
               var parser = new xml2js.Parser({ explicitArray: false });
@@ -333,9 +323,9 @@ class SET {
                                 </rEnviDe>\n\
                             </env:Body>\n\
                         </env:Envelope>\n`;
-        //console.log(soapXMLData);
+        
         soapXMLData = this.normalizeXML(soapXMLData);
-
+        //console.log(soapXMLData);
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
@@ -390,7 +380,7 @@ class SET {
    * @param xmls
    * @returns
    */
-  recibeLote(id: number, xmls: string[]): Promise<any> {
+  recibeLote(id: number, xmls: string[]): Promise<any> {  
     return new Promise(async (resolve, reject) => {
       try {
         if (xmls.length == 0) {
@@ -523,7 +513,8 @@ class SET {
    * @param xml
    * @returns
    */
-  evento(id: number, xml: string): Promise<any> {
+  async evento(id: number, xml: string): Promise<any> {
+
     return new Promise(async (resolve, reject) => {
       try {
         let url = "https://sifen.set.gov.py/de/ws/eventos/evento.wsdl";
@@ -544,24 +535,8 @@ class SET {
           key: Buffer.from(this.key, "utf8"),
         });
 
-        //xml = xml.split("\n").slice(1).join("\n"); //Retirar <xml>
-        xml = xml.replace(
-          '<?xml version="1.0" encoding="UTF-8" standalone="no"?>',
-          ""
-        );
-
-        let soapXMLData = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                          <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
-                              <env:Header/>\n\
-                              <env:Body>\n\
-                                  <rEnviEventoDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
-                                    <dId>${id}</dId>\n\
-                                    <dEvReg>${xml}</dEvReg>\n\
-                                  </rEnviEventoDe>\n\
-                              </env:Body>\n\
-                          </env:Envelope>\n`;
-        soapXMLData = this.normalizeXML(soapXMLData);
-        console.log(soapXMLData);
+        let soapXMLData = this.normalizeXML(xml); //Para el evento, el xml ya viene con SoapData
+//        console.log(soapXMLData);
 
         axios
           .post(`${url}`, soapXMLData, {
@@ -585,7 +560,6 @@ class SET {
               });
           })
           .catch((err: any) => {
-            console.log("error: ", err);
             if (err && err.response && err.response.data) {
               var xmlResponse = err.response.data;
               var parser = new xml2js.Parser({ explicitArray: false });
