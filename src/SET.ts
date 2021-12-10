@@ -434,7 +434,7 @@ class SET {
           cert: Buffer.from(this.cert, "utf8"),
           key: Buffer.from(this.key, "utf8"),
           rejectUnauthorized: false,
-          minVersion: 'TLSv1',
+          minVersion: "TLSv1",
         });
 
         //axios.get(`${url}`, { httpsAgent }).then((respuesta: any) => {
