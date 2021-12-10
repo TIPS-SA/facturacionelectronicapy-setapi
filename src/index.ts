@@ -4,8 +4,8 @@ class SetAPI {
   auth = (env: "test" | "prod", certificado: any, passphase: string) => {
     return set.auth(env, certificado, passphase);
   };
-  consulta = (id: number, xml: string): Promise<any> => {
-    return set.consulta(id, xml);
+  consulta = (id: number, cdc: string): Promise<any> => {
+    return set.consulta(id, cdc);
   };
   consultaRUC = (id: number, ruc: string): Promise<any> => {
     return set.consultaRUC(id, ruc);

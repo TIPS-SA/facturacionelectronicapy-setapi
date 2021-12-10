@@ -61,7 +61,7 @@ class SET {
                         </env:Envelope>\n`;
         soapXMLData = this.normalizeXML(soapXMLData);
 
-        console.log(soapXMLData);
+        //console.log(soapXMLData);
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
@@ -95,10 +95,10 @@ class SET {
                   resolve(resultData);
                 })
                 .catch(function (err) {
-                  throw err;
+                  reject(err);
                 });
             } else {
-              throw err;
+              reject(err);
             }
           });
       } catch (error) {
@@ -171,6 +171,7 @@ class SET {
               });
           })
           .catch((err: any) => {
+            //console.log("Errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", err);
             if (err && err.response && err.response.data) {
               var xmlResponse = err.response.data;
               var parser = new xml2js.Parser({ explicitArray: false });
@@ -181,10 +182,10 @@ class SET {
                   resolve(result["env:Envelope"]["env:Body"]);
                 })
                 .catch(function (err) {
-                  throw err;
+                  reject(err);
                 });
             } else {
-              throw err;
+              reject(err);
             }
           });
       } catch (error) {
@@ -270,10 +271,10 @@ class SET {
                   resolve(resultData);
                 })
                 .catch(function (err) {
-                  throw err;
+                  reject(err);
                 });
             } else {
-              throw err;
+              reject(err);
             }
             //console.log(err);
             //console.log(err.toJSON());
@@ -362,10 +363,10 @@ class SET {
                   resolve(resultData);
                 })
                 .catch(function (err) {
-                  throw err;
+                  reject(err);
                 });
             } else {
-              throw err;
+              reject(err);
             }
           });
       } catch (error) {
@@ -496,10 +497,10 @@ class SET {
                   resolve(resultData);
                 })
                 .catch(function (err) {
-                  throw err;
+                  reject(err);
                 });
             } else {
-              throw err;
+              reject(err);
             }
           });
       } catch (error) {
@@ -571,10 +572,10 @@ class SET {
                   resolve(resultData);
                 })
                 .catch(function (err) {
-                  throw err;
+                  reject(err);
                 });
             } else {
-              throw err;
+              reject(err);
             }
           });
       } catch (error) {
