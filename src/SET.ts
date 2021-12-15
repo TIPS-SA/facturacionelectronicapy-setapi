@@ -6,7 +6,7 @@ const https = require("https");
 const axios = require("axios");
 
 class SET {
-/*  private env: any;
+  /*  private env: any;
   private cert: any;
   private key: any;
 
@@ -29,7 +29,13 @@ class SET {
    * @param cdc
    * @returns
    */
-  consulta(id: number, cdc: string, env: "test" | "prod", cert: any, key: string): Promise<any> {
+  consulta(
+    id: number,
+    cdc: string,
+    env: "test" | "prod",
+    cert: any,
+    key: string
+  ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
         let url = "https://sifen.set.gov.py/de/ws/consultas/consulta.wsdl";
@@ -114,7 +120,13 @@ class SET {
    * @param numeroProtocolo
    * @returns
    */
-  consultaLote(id: number, numeroProtocolo: number, env: "test" | "prod", cert: any, key: string): Promise<any> {
+  consultaLote(
+    id: number,
+    numeroProtocolo: number,
+    env: "test" | "prod",
+    cert: any,
+    key: string
+  ): Promise<any> {
     console.log("aqui el env vale", env);
     return new Promise(async (resolve, reject) => {
       try {
@@ -201,7 +213,13 @@ class SET {
    * @param xml
    * @returns
    */
-  consultaRUC(id: number, ruc: string, env: "test" | "prod", cert: any, key: string): Promise<any> {
+  consultaRUC(
+    id: number,
+    ruc: string,
+    env: "test" | "prod",
+    cert: any,
+    key: string
+  ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
         let url = "https://sifen.set.gov.py/de/ws/consultas/consulta-ruc.wsdl";
@@ -293,7 +311,13 @@ class SET {
    * @param xml
    * @returns
    */
-  recibe(id: number, xml: string, env: "test" | "prod", cert: any, key: string): Promise<any> {
+  recibe(
+    id: number,
+    xml: string,
+    env: "test" | "prod",
+    cert: any,
+    key: string
+  ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
         let url = "https://sifen.set.gov.py/de/ws/sync/recibe.wsdl";
@@ -383,7 +407,13 @@ class SET {
    * @param xmls
    * @returns
    */
-  recibeLote(id: number, xmls: string[], env: "test" | "prod", cert: any, key: string): Promise<any> {
+  recibeLote(
+    id: number,
+    xmls: string[],
+    env: "test" | "prod",
+    cert: any,
+    key: string
+  ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
         if (xmls.length == 0) {
@@ -518,7 +548,13 @@ class SET {
    * @param xml
    * @returns
    */
-  async evento(id: number, xml: string, env: "test" | "prod", cert: any, key: string): Promise<any> {
+  async evento(
+    id: number,
+    xml: string,
+    env: "test" | "prod",
+    cert: any,
+    key: string
+  ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
         let url = "https://sifen.set.gov.py/de/ws/eventos/evento.wsdl";
