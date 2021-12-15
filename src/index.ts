@@ -1,26 +1,26 @@
 import set from "./SET";
 
 class SetAPI {
-  auth = (env: "test" | "prod", certificado: any, passphase: string) => {
+  /*auth = (env: "test" | "prod", certificado: any, passphase: string) => {
     return set.auth(env, certificado, passphase);
+  };*/
+  consulta = (id: number, cdc: string, env: "test" | "prod", cert: any, key: string): Promise<any> => {
+    return set.consulta(id, cdc, env, cert, key);
   };
-  consulta = (id: number, cdc: string): Promise<any> => {
-    return set.consulta(id, cdc);
+  consultaRUC = (id: number, ruc: string, env: "test" | "prod", cert: any, key: string): Promise<any> => {
+    return set.consultaRUC(id, ruc, env, cert, key);
   };
-  consultaRUC = (id: number, ruc: string): Promise<any> => {
-    return set.consultaRUC(id, ruc);
+  consultaLote = (id: number, numeroLote: number, env: "test" | "prod", cert: any, key: string): Promise<any> => {
+    return set.consultaLote(id, numeroLote, env, cert, key);
   };
-  consultaLote = (id: number, numeroLote: number): Promise<any> => {
-    return set.consultaLote(id, numeroLote);
+  recibe = (id: number, xml: string, env: "test" | "prod", cert: any, key: string): Promise<any> => {
+    return set.recibe(id, xml, env, cert, key);
   };
-  recibe = (id: number, xml: string): Promise<any> => {
-    return set.recibe(id, xml);
+  recibeLote = (id: number, xml: string[], env: "test" | "prod", cert: any, key: string): Promise<any> => {
+    return set.recibeLote(id, xml, env, cert, key);
   };
-  recibeLote = (id: number, xml: string[]): Promise<any> => {
-    return set.recibeLote(id, xml);
-  };
-  evento = (id: number, xml: string): Promise<any> => {
-    return set.evento(id, xml);
+  evento = (id: number, xml: string, env: "test" | "prod", cert: any, key: string): Promise<any> => {
+    return set.evento(id, xml, env, cert, key);
   };
 }
 

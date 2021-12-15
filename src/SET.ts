@@ -6,7 +6,7 @@ const https = require("https");
 const axios = require("axios");
 
 class SET {
-  private env: any;
+/*  private env: any;
   private cert: any;
   private key: any;
 
@@ -14,13 +14,14 @@ class SET {
    * Crea los certificados para authenticarse a la SET.
    * @param certificado
    * @param passphase
-   */
+   * /
   auth(env: "test" | "prod", certificado: any, passphase: string) {
     pkcs12.openFile(certificado, passphase);
     this.env = env;
     this.cert = pkcs12.getCertificate();
     this.key = pkcs12.getPrivateKey();
   }
+  */
 
   /**
    * Consulta un Documento Electronico por CDC
@@ -28,25 +29,25 @@ class SET {
    * @param cdc
    * @returns
    */
-  consulta(id: number, cdc: string): Promise<any> {
+  consulta(id: number, cdc: string, env: "test" | "prod", cert: any, key: string): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
         let url = "https://sifen.set.gov.py/de/ws/consultas/consulta.wsdl";
-        if (this.env == "test") {
+        if (env == "test") {
           url = "https://sifen-test.set.gov.py/de/ws/consultas/consulta.wsdl";
         }
 
-        if (!this.cert) {
+        if (!cert) {
           throw new Error("Antes debe Autenticarse");
         }
 
-        if (!this.key) {
+        if (!key) {
           throw new Error("Antes debe autenticarse");
         }
 
         const httpsAgent = new https.Agent({
-          cert: Buffer.from(this.cert, "utf8"),
-          key: Buffer.from(this.key, "utf8"),
+          cert: Buffer.from(cert, "utf8"),
+          key: Buffer.from(key, "utf8"),
         });
 
         let soapXMLData = `<?xml version="1.0" encoding="UTF-8"?>\n\
@@ -113,27 +114,27 @@ class SET {
    * @param numeroProtocolo
    * @returns
    */
-  consultaLote(id: number, numeroProtocolo: number): Promise<any> {
-    console.log("aqui el env vale", this.env);
+  consultaLote(id: number, numeroProtocolo: number, env: "test" | "prod", cert: any, key: string): Promise<any> {
+    console.log("aqui el env vale", env);
     return new Promise(async (resolve, reject) => {
       try {
         let url = "https://sifen.set.gov.py/de/ws/consultas/consulta-lote.wsdl";
-        if (this.env == "test") {
+        if (env == "test") {
           url =
             "https://sifen-test.set.gov.py/de/ws/consultas/consulta-lote.wsdl";
         }
 
-        if (!this.cert) {
+        if (!cert) {
           throw new Error("Antes debe Autenticarse");
         }
 
-        if (!this.key) {
+        if (!key) {
           throw new Error("Antes debe autenticarse");
         }
 
         const httpsAgent = new https.Agent({
-          cert: Buffer.from(this.cert, "utf8"),
-          key: Buffer.from(this.key, "utf8"),
+          cert: Buffer.from(cert, "utf8"),
+          key: Buffer.from(key, "utf8"),
         });
 
         let soapXMLData = `<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
@@ -200,26 +201,26 @@ class SET {
    * @param xml
    * @returns
    */
-  consultaRUC(id: number, ruc: string): Promise<any> {
+  consultaRUC(id: number, ruc: string, env: "test" | "prod", cert: any, key: string): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
         let url = "https://sifen.set.gov.py/de/ws/consultas/consulta-ruc.wsdl";
-        if (this.env == "test") {
+        if (env == "test") {
           url =
             "https://sifen-test.set.gov.py/de/ws/consultas/consulta-ruc.wsdl";
         }
 
-        if (!this.cert) {
+        if (!cert) {
           throw new Error("Antes debe Autenticarse");
         }
 
-        if (!this.key) {
+        if (!key) {
           throw new Error("Antes debe autenticarse");
         }
 
         const httpsAgent = new https.Agent({
-          cert: Buffer.from(this.cert, "utf8"),
-          key: Buffer.from(this.key, "utf8"),
+          cert: Buffer.from(cert, "utf8"),
+          key: Buffer.from(key, "utf8"),
           /*maxVersion: "TLSv1.2",
                     minVersion: "TLSv1.2",
                     secureOptions : constants.SSL_OP_NO_SSLv2 | constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_TLSv1 | constants.SSL_OP_NO_TLSv1_1*/
@@ -292,25 +293,25 @@ class SET {
    * @param xml
    * @returns
    */
-  recibe(id: number, xml: string): Promise<any> {
+  recibe(id: number, xml: string, env: "test" | "prod", cert: any, key: string): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
         let url = "https://sifen.set.gov.py/de/ws/sync/recibe.wsdl";
-        if (this.env == "test") {
+        if (env == "test") {
           url = "https://sifen-test.set.gov.py/de/ws/sync/recibe.wsdl";
         }
 
-        if (!this.cert) {
+        if (!cert) {
           throw new Error("Antes debe Autenticarse");
         }
 
-        if (!this.key) {
+        if (!key) {
           throw new Error("Antes debe autenticarse");
         }
 
         const httpsAgent = new https.Agent({
-          cert: Buffer.from(this.cert, "utf8"),
-          key: Buffer.from(this.key, "utf8"),
+          cert: Buffer.from(cert, "utf8"),
+          key: Buffer.from(key, "utf8"),
         });
 
         xml = xml.split("\n").slice(1).join("\n"); //Retirar <xml>
@@ -382,7 +383,7 @@ class SET {
    * @param xmls
    * @returns
    */
-  recibeLote(id: number, xmls: string[]): Promise<any> {
+  recibeLote(id: number, xmls: string[], env: "test" | "prod", cert: any, key: string): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
         if (xmls.length == 0) {
@@ -397,15 +398,15 @@ class SET {
         }
 
         let url = "https://sifen.set.gov.py/de/ws/async/recibe-lote.wsdl";
-        if (this.env == "test") {
+        if (env == "test") {
           url = "https://sifen-test.set.gov.py/de/ws/async/recibe-lote.wsdl";
         }
 
-        if (!this.cert) {
+        if (!cert) {
           throw new Error("Antes debe Autenticarse");
         }
 
-        if (!this.key) {
+        if (!key) {
           throw new Error("Antes debe autenticarse");
         }
 
@@ -432,8 +433,8 @@ class SET {
         //fs.writeFileSync(__dirname + '/zipped.zip', zipAsBase64);
 
         const httpsAgent = new https.Agent({
-          cert: Buffer.from(this.cert, "utf8"),
-          key: Buffer.from(this.key, "utf8"),
+          cert: Buffer.from(cert, "utf8"),
+          key: Buffer.from(key, "utf8"),
           rejectUnauthorized: false,
           minVersion: "TLSv1",
         });
@@ -517,25 +518,25 @@ class SET {
    * @param xml
    * @returns
    */
-  async evento(id: number, xml: string): Promise<any> {
+  async evento(id: number, xml: string, env: "test" | "prod", cert: any, key: string): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
         let url = "https://sifen.set.gov.py/de/ws/eventos/evento.wsdl";
-        if (this.env == "test") {
+        if (env == "test") {
           url = "https://sifen-test.set.gov.py/de/ws/eventos/evento.wsdl";
         }
 
-        if (!this.cert) {
+        if (!cert) {
           throw new Error("Antes debe Autenticarse");
         }
 
-        if (!this.key) {
+        if (!key) {
           throw new Error("Antes debe autenticarse");
         }
 
         const httpsAgent = new https.Agent({
-          cert: Buffer.from(this.cert, "utf8"),
-          key: Buffer.from(this.key, "utf8"),
+          cert: Buffer.from(cert, "utf8"),
+          key: Buffer.from(key, "utf8"),
         });
 
         let soapXMLData = this.normalizeXML(xml); //Para el evento, el xml ya viene con SoapData
