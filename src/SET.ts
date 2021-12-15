@@ -114,8 +114,7 @@ class SET {
    * @returns
    */
   consultaLote(id: number, numeroProtocolo: number): Promise<any> {
-
-    console.log("aqui el env vale", this.env)
+    console.log("aqui el env vale", this.env);
     return new Promise(async (resolve, reject) => {
       try {
         let url = "https://sifen.set.gov.py/de/ws/consultas/consulta-lote.wsdl";
