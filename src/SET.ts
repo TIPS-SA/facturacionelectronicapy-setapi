@@ -40,7 +40,7 @@ class SET {
     cdc: string,
     env: "test" | "prod",
     certificado: any,
-    passphase: any,
+    passphase: any
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
@@ -133,9 +133,8 @@ class SET {
     numeroProtocolo: number,
     env: "test" | "prod",
     certificado: any,
-    passphase: any,
+    passphase: any
   ): Promise<any> {
-
     console.log("aqui el env vale", env);
     return new Promise(async (resolve, reject) => {
       try {
@@ -229,7 +228,7 @@ class SET {
     ruc: string,
     env: "test" | "prod",
     certificado: any,
-    passphase: any,
+    passphase: any
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
@@ -329,7 +328,7 @@ class SET {
     xml: string,
     env: "test" | "prod",
     certificado: any,
-    passphase: any,
+    passphase: any
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
@@ -427,7 +426,7 @@ class SET {
     xmls: string[],
     env: "test" | "prod",
     certificado: any,
-    passphase: any,
+    passphase: any
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
@@ -570,7 +569,7 @@ class SET {
     xml: string,
     env: "test" | "prod",
     certificado: any,
-    passphase: any,
+    passphase: any
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
