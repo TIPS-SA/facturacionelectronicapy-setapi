@@ -134,7 +134,6 @@ class SET {
     certificado: any,
     passphase: any
   ): Promise<any> {
-    
     return new Promise(async (resolve, reject) => {
       try {
         this.abrir(certificado, passphase);
