@@ -76,7 +76,6 @@ class SET {
                         </env:Envelope>\n`;
         soapXMLData = this.normalizeXML(soapXMLData);
 
-        //console.log(soapXMLData);
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
@@ -135,7 +134,7 @@ class SET {
     certificado: any,
     passphase: any
   ): Promise<any> {
-    console.log("aqui el env vale", env);
+    
     return new Promise(async (resolve, reject) => {
       try {
         this.abrir(certificado, passphase);
@@ -168,7 +167,6 @@ class SET {
                                 </rEnviConsLoteDe>\n\
                             </env:Body>\n\
                         </env:Envelope>\n`;
-        //console.log(soapXMLData);
         soapXMLData = this.normalizeXML(soapXMLData);
 
         axios
@@ -180,7 +178,6 @@ class SET {
             httpsAgent,
           })
           .then((respuestaSuccess: any) => {
-            //console.log(respuestaSuccess.data);
             var parser = new xml2js.Parser({ explicitArray: false });
 
             parser
@@ -195,7 +192,6 @@ class SET {
               });
           })
           .catch((err: any) => {
-            //console.log("Errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", err);
             if (err && err.response && err.response.data) {
               var xmlResponse = err.response.data;
               var parser = new xml2js.Parser({ explicitArray: false });
@@ -265,10 +261,7 @@ class SET {
                                 </rEnviConsRUC>\n\
                             </env:Body>\n\
                         </env:Envelope>\n`;
-        //console.log(soapXMLData);
         soapXMLData = this.normalizeXML(soapXMLData);
-
-        //                console.log(soapXMLData);
 
         axios
           .post(`${url}`, soapXMLData, {
@@ -279,7 +272,6 @@ class SET {
             httpsAgent,
           })
           .then((respuestaSuccess: any) => {
-            //console.log(respuestaSuccess.data);
             var parser = new xml2js.Parser({ explicitArray: false });
 
             parser
@@ -308,8 +300,6 @@ class SET {
             } else {
               reject(err);
             }
-            //console.log(err);
-            //console.log(err.toJSON());
           });
       } catch (error) {
         reject(error);
@@ -366,7 +356,6 @@ class SET {
                         </env:Envelope>\n`;
 
         soapXMLData = this.normalizeXML(soapXMLData);
-        //console.log(soapXMLData);
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
@@ -468,8 +457,6 @@ class SET {
         rLoteDEXml += `</rLoteDE>`;
         rLoteDEXml = this.normalizeXML(rLoteDEXml);
 
-        //console.log("Enviar: " + rLoteDEXml);
-
         zip.file(
           `xml_file.xml`,
           `<?xml version="1.0" encoding="UTF-8"?>${rLoteDEXml}`
@@ -481,13 +468,11 @@ class SET {
         const httpsAgent = new https.Agent({
           cert: Buffer.from(this.cert, "utf8"),
           key: Buffer.from(this.key, "utf8"),
-          rejectUnauthorized: false,
-          minVersion: "TLSv1",
+          //rejectUnauthorized: false,
+          //minVersion: "TLSv1",
         });
 
         //axios.get(`${url}`, { httpsAgent }).then((respuesta: any) => {
-        //console.log("respuesta", respuesta.data);
-
         let soapXMLData = `<?xml version="1.0" encoding="UTF-8"?>\n\
                         <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
                             <env:Header/>\n\
@@ -498,11 +483,7 @@ class SET {
                                 </rEnvioLote>\n\
                             </env:Body>\n\
                         </env:Envelope>\n`;
-        //console.log(xmlData);
         soapXMLData = this.normalizeXML(soapXMLData);
-
-        //console.log("soapXMLData SENT", soapXMLData);
-        //console.log("--->", url, soapXMLData);
 
         axios
           .post(`${url}`, soapXMLData, {
@@ -513,7 +494,6 @@ class SET {
             httpsAgent,
           })
           .then((respuestaSuccess: any) => {
-            //console.log(respuestaSuccess.data);
             var parser = new xml2js.Parser({ explicitArray: false });
 
             parser
@@ -594,7 +574,6 @@ class SET {
         });
 
         let soapXMLData = this.normalizeXML(xml); //Para el evento, el xml ya viene con SoapData
-        //        console.log(soapXMLData);
 
         axios
           .post(`${url}`, soapXMLData, {
