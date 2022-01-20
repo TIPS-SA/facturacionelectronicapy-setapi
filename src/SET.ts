@@ -50,7 +50,7 @@ class SET {
         if (env == "test") {
           url = "https://sifen-test.set.gov.py/de/ws/consultas/consulta.wsdl";
         }
-
+        console.log("URL invocado...", url);
         if (!this.cert) {
           throw new Error("Antes debe Autenticarse");
         }
