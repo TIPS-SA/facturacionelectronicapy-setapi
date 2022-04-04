@@ -26,7 +26,7 @@ TypeScript:
 import setApi from 'facturacionelectronicapy-setapi';
 
 setApi
-.recibe(id, xmlSigned[], env = "test" | "prod", cert_path, key)
+.recibeLote(id, xmlSigned[], env = "test" | "prod", cert_path, key)
 .then(xml => console.log("XML con QR", xml));
 
 ```
