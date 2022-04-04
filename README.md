@@ -7,14 +7,70 @@ API de comunicación con la SET - Subsecretaría de estado de Tributación, para
 $ npm install facturacionelectronicapy-setapi
 ```
 
-## Generación del código QR
+## Envio de Documento de forma Síncrona
 
 TypeScript:
 ```typescript
-import qrgen from 'facturacionelectronicapy-qrgen';
+import setApi from 'facturacionelectronicapy-setapi';
 
-qrgen
-.generateQR(xmlSigned)
+setApi
+.recibe(id, xmlSigned, env = "test" | "prod", cert_path, key)
+.then(xml => console.log("XML con QR", xml));
+
+```
+
+## Envio de Documento de forma Asíncrona, por lotes
+
+TypeScript:
+```typescript
+import setApi from 'facturacionelectronicapy-setapi';
+
+setApi
+.recibe(id, xmlSigned[], env = "test" | "prod", cert_path, key)
+.then(xml => console.log("XML con QR", xml));
+
+```
+## Envio de evento a la SET
+
+TypeScript:
+```typescript
+import setApi from 'facturacionelectronicapy-setapi';
+
+setApi
+.evento(id, xmlSigned, env = "test" | "prod", cert_path, key)
+.then(xml => console.log("XML con QR", xml));
+
+```
+## Consulta de Documentos electrónicos desde la SET
+
+TypeScript:
+```typescript
+import setApi from 'facturacionelectronicapy-setapi';
+
+setApi
+.consulta(id, cdc, env = "test" | "prod", cert_path, key)
+.then(xml => console.log("XML con QR", xml));
+
+```
+## Consulta de RUC
+
+TypeScript:
+```typescript
+import setApi from 'facturacionelectronicapy-setapi';
+
+setApi
+.consultaRuc(id, ruc, env = "test" | "prod", cert_path, key)
+.then(xml => console.log("XML con QR", xml));
+
+```
+## Consulta de Lote
+
+TypeScript:
+```typescript
+import setApi from 'facturacionelectronicapy-setapi';
+
+setApi
+.consultaLote(id, numeroLote, env = "test" | "prod", cert_path, key)
 .then(xml => console.log("XML con QR", xml));
 
 ```
