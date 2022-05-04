@@ -179,16 +179,20 @@ class SET {
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
 
-            parser
-              .parseStringPromise(respuestaSuccess.data)
-              .then(function (result) {
-                const resultData = JSON.parse(
-                  JSON.stringify(result["env:Envelope"]["env:Body"])
-                );
-                resultData.id = id;
+            if (respuestaSuccess.data instanceof Object) {
+              parser
+                .parseStringPromise(respuestaSuccess.data)
+                .then(function (result) {
+                  const resultData = JSON.parse(
+                    JSON.stringify(result["env:Envelope"]["env:Body"])
+                  );
+                  resultData.id = id;
 
-                resolve(resultData);
-              });
+                  resolve(resultData);
+                });
+              } else {
+                throw new Error("Se esperaba un objeto como response");
+              }
           })
           .catch((err: any) => {
             if (err && err.response && err.response.data) {
@@ -273,13 +277,21 @@ class SET {
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
 
-            parser
-              .parseStringPromise(respuestaSuccess.data)
-              .then(function (result) {
-                const resultData = result["env:Envelope"]["env:Body"];
-                resultData.id = id;
-                resolve(resultData);
+            console.log("respuestaSuccess.data", respuestaSuccess.data);
+
+            if (respuestaSuccess.data instanceof Object) {
+              parser
+                .parseStringPromise(respuestaSuccess.data)
+                .then(function (result) {
+                  const resultData = result["env:Envelope"]["env:Body"];
+                  resultData.id = id;
+                  resolve(resultData);
               });
+            } else {
+              //reject(new Error("Error en la respuesta de comunicación con la SET " + respuestaSuccess.data));
+              throw new Error("Se esperaba un objeto como response");
+            }
+            
           })
           .catch((err: any) => {
             if (err && err.response && err.response.data) {
@@ -366,7 +378,8 @@ class SET {
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
 
-            parser
+            if (respuestaSuccess.data instanceof Object) {
+              parser
               .parseStringPromise(respuestaSuccess.data)
               .then(function (result) {
                 //resolve(result['env:Envelope']['env:Body']);
@@ -377,6 +390,10 @@ class SET {
                 resultData["id"] = id;
                 resolve(resultData);
               });
+            } else {
+              //reject(new Error("Error en la respuesta de comunicación con la SET " + respuestaSuccess.data));
+              throw new Error("Se esperaba un objeto como response");
+            }
           })
           .catch((err: any) => {
             if (err && err.response && err.response.data) {
@@ -495,19 +512,23 @@ class SET {
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
 
-            parser
-              .parseStringPromise(respuestaSuccess.data)
-              .then(function (result) {
-                //resolve(result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe']);
-                const resultData =
-                  //result["env:Envelope"]["env:Body"]["ns2:rResEnviLoteDe"];
-                  result["env:Envelope"]["env:Body"];
-                resultData["id"] = id;
-                //result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe']['id'] = id;
-                //const resultData = result['env:Envelope']['env:Body'];
-                delete resultData.$;
-                resolve(resultData);
-              });
+            if (respuestaSuccess.data instanceof Object) {
+              parser
+                .parseStringPromise(respuestaSuccess.data)
+                .then(function (result) {
+                  //resolve(result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe']);
+                  const resultData =
+                    //result["env:Envelope"]["env:Body"]["ns2:rResEnviLoteDe"];
+                    result["env:Envelope"]["env:Body"];
+                  resultData["id"] = id;
+                  //result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe']['id'] = id;
+                  //const resultData = result['env:Envelope']['env:Body'];
+                  delete resultData.$;
+                  resolve(resultData);
+                });
+            } else {
+              throw new Error("Se esperaba un objeto como response");
+            }
           })
           .catch((err: any) => {
             if (err && err.response && err.response.data) {
@@ -585,15 +606,21 @@ class SET {
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
 
-            parser
-              .parseStringPromise(respuestaSuccess.data)
-              .then(function (result) {
-                ///resolve(result['env:Envelope']['env:Body']);
-                const resultData = result["env:Envelope"]["env:Body"];
-                resultData.id = id;
-                //delete resultData.$;
-                resolve(resultData);
-              });
+            if (respuestaSuccess.data instanceof Object) {
+
+              parser
+                .parseStringPromise(respuestaSuccess.data)
+                .then(function (result) {
+                  ///resolve(result['env:Envelope']['env:Body']);
+                  const resultData = result["env:Envelope"]["env:Body"];
+                  resultData.id = id;
+                  //delete resultData.$;
+                  resolve(resultData);
+                });
+
+             } else {
+                throw new Error("Se esperaba un objeto como response");
+             }
           })
           .catch((err: any) => {
             if (err && err.response && err.response.data) {
