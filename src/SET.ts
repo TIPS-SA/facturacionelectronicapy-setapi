@@ -190,9 +190,9 @@ class SET {
 
                   resolve(resultData);
                 });
-              } else {
-                throw new Error("Se esperaba un objeto como response");
-              }
+            } else {
+              throw new Error("Se esperaba un objeto como response");
+            }
           })
           .catch((err: any) => {
             if (err && err.response && err.response.data) {
@@ -286,12 +286,11 @@ class SET {
                   const resultData = result["env:Envelope"]["env:Body"];
                   resultData.id = id;
                   resolve(resultData);
-              });
+                });
             } else {
               //reject(new Error("Error en la respuesta de comunicación con la SET " + respuestaSuccess.data));
               throw new Error("Se esperaba un objeto como response");
             }
-            
           })
           .catch((err: any) => {
             if (err && err.response && err.response.data) {
@@ -380,16 +379,16 @@ class SET {
 
             if (respuestaSuccess.data instanceof Object) {
               parser
-              .parseStringPromise(respuestaSuccess.data)
-              .then(function (result) {
-                //resolve(result['env:Envelope']['env:Body']);
-                const resultData =
-                  //result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"];
-                  result["env:Envelope"]["env:Body"];
-                //delete resultData.$;
-                resultData["id"] = id;
-                resolve(resultData);
-              });
+                .parseStringPromise(respuestaSuccess.data)
+                .then(function (result) {
+                  //resolve(result['env:Envelope']['env:Body']);
+                  const resultData =
+                    //result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"];
+                    result["env:Envelope"]["env:Body"];
+                  //delete resultData.$;
+                  resultData["id"] = id;
+                  resolve(resultData);
+                });
             } else {
               //reject(new Error("Error en la respuesta de comunicación con la SET " + respuestaSuccess.data));
               throw new Error("Se esperaba un objeto como response");
@@ -607,7 +606,6 @@ class SET {
             var parser = new xml2js.Parser({ explicitArray: false });
 
             if (respuestaSuccess.data instanceof Object) {
-
               parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
@@ -617,10 +615,9 @@ class SET {
                   //delete resultData.$;
                   resolve(resultData);
                 });
-
-             } else {
-                throw new Error("Se esperaba un objeto como response");
-             }
+            } else {
+              throw new Error("Se esperaba un objeto como response");
+            }
           })
           .catch((err: any) => {
             if (err && err.response && err.response.data) {
