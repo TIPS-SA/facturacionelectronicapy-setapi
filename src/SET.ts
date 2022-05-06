@@ -90,7 +90,7 @@ class SET {
             //console.log("statuscode", respuestaSuccess);
             //console.log(respuestaSuccess.status);
 
-            if ( respuestaSuccess.status == 200) {
+            if (respuestaSuccess.status == 200) {
               parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
@@ -101,7 +101,6 @@ class SET {
                 });
             } else {
               throw new Error("Error de conexión con la SET");
-              
             }
           })
           .catch((err: any) => {
@@ -188,7 +187,7 @@ class SET {
             var parser = new xml2js.Parser({ explicitArray: false });
             //console.log("statuscode", respuestaSuccess);
             //console.log(respuestaSuccess.statusCode);
-            if ( respuestaSuccess.status == 200 ) {
+            if (respuestaSuccess.status == 200) {
               parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
@@ -290,8 +289,7 @@ class SET {
             //console.log("statuscode", respuestaSuccess.status);
             ////console.log(respuestaSuccess.statusCode);
 
-
-            if ( respuestaSuccess.status == 200 ) {
+            if (respuestaSuccess.status == 200) {
               parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
@@ -389,7 +387,7 @@ class SET {
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
 
-            if ( respuestaSuccess.status == 200 ) {
+            if (respuestaSuccess.status == 200) {
               parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
@@ -523,7 +521,7 @@ class SET {
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
 
-            if ( respuestaSuccess.status == 200 ) {
+            if (respuestaSuccess.status == 200) {
               parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
@@ -617,7 +615,7 @@ class SET {
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
 
-            if ( respuestaSuccess.status == 200 ) {
+            if (respuestaSuccess.status == 200) {
               parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
