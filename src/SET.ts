@@ -50,7 +50,7 @@ class SET {
         if (env == "test") {
           url = "https://sifen-test.set.gov.py/de/ws/consultas/consulta.wsdl";
         }
-        console.log("URL invocado...", url);
+        //console.log("URL invocado...", url);
         if (!this.cert) {
           throw new Error("Antes debe Autenticarse");
         }
@@ -87,14 +87,22 @@ class SET {
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
 
-            parser
-              .parseStringPromise(respuestaSuccess.data)
-              .then(function (result) {
-                const resultData = result["env:Envelope"]["env:Body"];
-                //delete resultData.$;
-                resultData.id = id;
-                resolve(resultData);
-              });
+            //console.log("statuscode", respuestaSuccess);
+            //console.log(respuestaSuccess.status);
+
+            if ( respuestaSuccess.status == 200) {
+              parser
+                .parseStringPromise(respuestaSuccess.data)
+                .then(function (result) {
+                  const resultData = result["env:Envelope"]["env:Body"];
+                  //delete resultData.$;
+                  resultData.id = id;
+                  resolve(resultData);
+                });
+            } else {
+              throw new Error("Error de conexión con la SET");
+              
+            }
           })
           .catch((err: any) => {
             if (err && err.response && err.response.data) {
@@ -178,8 +186,9 @@ class SET {
           })
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
-
-            if (respuestaSuccess.data instanceof Object) {
+            //console.log("statuscode", respuestaSuccess);
+            //console.log(respuestaSuccess.statusCode);
+            if ( respuestaSuccess.status == 200 ) {
               parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
@@ -191,7 +200,7 @@ class SET {
                   resolve(resultData);
                 });
             } else {
-              throw new Error("Se esperaba un objeto como response");
+              throw new Error("Error de conexión con la SET");
             }
           })
           .catch((err: any) => {
@@ -277,9 +286,12 @@ class SET {
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
 
-            console.log("respuestaSuccess.data", respuestaSuccess.data);
+            //console.log("respuestaSuccess.data", respuestaSuccess.data);
+            //console.log("statuscode", respuestaSuccess.status);
+            ////console.log(respuestaSuccess.statusCode);
 
-            if (respuestaSuccess.data instanceof Object) {
+
+            if ( respuestaSuccess.status == 200 ) {
               parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
@@ -289,7 +301,7 @@ class SET {
                 });
             } else {
               //reject(new Error("Error en la respuesta de comunicación con la SET " + respuestaSuccess.data));
-              throw new Error("Se esperaba un objeto como response");
+              throw new Error("Error de conexión con la SET");
             }
           })
           .catch((err: any) => {
@@ -377,7 +389,7 @@ class SET {
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
 
-            if (respuestaSuccess.data instanceof Object) {
+            if ( respuestaSuccess.status == 200 ) {
               parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
@@ -391,7 +403,7 @@ class SET {
                 });
             } else {
               //reject(new Error("Error en la respuesta de comunicación con la SET " + respuestaSuccess.data));
-              throw new Error("Se esperaba un objeto como response");
+              throw new Error("Error de conexión con la SET");
             }
           })
           .catch((err: any) => {
@@ -511,7 +523,7 @@ class SET {
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
 
-            if (respuestaSuccess.data instanceof Object) {
+            if ( respuestaSuccess.status == 200 ) {
               parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
@@ -526,7 +538,7 @@ class SET {
                   resolve(resultData);
                 });
             } else {
-              throw new Error("Se esperaba un objeto como response");
+              throw new Error("Error de conexión con la SET");
             }
           })
           .catch((err: any) => {
@@ -605,7 +617,7 @@ class SET {
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
 
-            if (respuestaSuccess.data instanceof Object) {
+            if ( respuestaSuccess.status == 200 ) {
               parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
@@ -616,7 +628,7 @@ class SET {
                   resolve(resultData);
                 });
             } else {
-              throw new Error("Se esperaba un objeto como response");
+              throw new Error("Error de conexión con la SET");
             }
           })
           .catch((err: any) => {
