@@ -52,11 +52,11 @@ class SET {
         }
         //console.log("URL invocado...", url);
         if (!this.cert) {
-          throw new Error("Antes debe Autenticarse");
+          reject("Antes debe Autenticarse");
         }
 
         if (!this.key) {
-          throw new Error("Antes debe autenticarse");
+          reject("Antes debe autenticarse");
         }
 
         const httpsAgent = new https.Agent({
@@ -91,7 +91,8 @@ class SET {
             //console.log(respuestaSuccess.status);
 
             if (respuestaSuccess.status == 200) {
-              parser
+              if ((respuestaSuccess.data + '').startsWith("{")) {
+                parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
                   const resultData = result["env:Envelope"]["env:Body"];
@@ -99,8 +100,11 @@ class SET {
                   resultData.id = id;
                   resolve(resultData);
                 });
+              } else {
+                reject(respuestaSuccess.data);
+              }
             } else {
-              throw new Error("Error de conexión con la SET");
+              reject("Error de conexión con la SET");
             }
           })
           .catch((err: any) => {
@@ -152,11 +156,11 @@ class SET {
         }
 
         if (!this.cert) {
-          throw new Error("Antes debe Autenticarse");
+          reject("Antes debe Autenticarse");
         }
 
         if (!this.key) {
-          throw new Error("Antes debe autenticarse");
+          reject("Antes debe autenticarse");
         }
 
         const httpsAgent = new https.Agent({
@@ -185,10 +189,10 @@ class SET {
           })
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
-            //console.log("statuscode", respuestaSuccess);
-            //console.log(respuestaSuccess.statusCode);
+            
             if (respuestaSuccess.status == 200) {
-              parser
+              if ((respuestaSuccess.data + '').startsWith("{")) {
+                parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
                   const resultData = JSON.parse(
@@ -198,8 +202,11 @@ class SET {
 
                   resolve(resultData);
                 });
+              } else {
+                reject(respuestaSuccess.data);
+              }
             } else {
-              throw new Error("Error de conexión con la SET");
+              reject("Error de conexión con la SET");
             }
           })
           .catch((err: any) => {
@@ -248,11 +255,11 @@ class SET {
         }
 
         if (!this.cert) {
-          throw new Error("Antes debe Autenticarse");
+          reject("Antes debe Autenticarse");
         }
 
         if (!this.key) {
-          throw new Error("Antes debe autenticarse");
+          reject("Antes debe autenticarse");
         }
 
         const httpsAgent = new https.Agent({
@@ -290,16 +297,20 @@ class SET {
             ////console.log(respuestaSuccess.statusCode);
 
             if (respuestaSuccess.status == 200) {
-              parser
+              if ((respuestaSuccess.data + '').startsWith("{")) {
+                parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
                   const resultData = result["env:Envelope"]["env:Body"];
                   resultData.id = id;
                   resolve(resultData);
                 });
+              } else {
+                reject(respuestaSuccess.data);
+              }
             } else {
               //reject(new Error("Error en la respuesta de comunicación con la SET " + respuestaSuccess.data));
-              throw new Error("Error de conexión con la SET");
+              reject("Error de conexión con la SET");
             }
           })
           .catch((err: any) => {
@@ -350,11 +361,11 @@ class SET {
         }
 
         if (!this.cert) {
-          throw new Error("Antes debe Autenticarse");
+          reject("Antes debe Autenticarse");
         }
 
         if (!this.key) {
-          throw new Error("Antes debe autenticarse");
+          reject("Antes debe autenticarse");
         }
 
         const httpsAgent = new https.Agent({
@@ -376,6 +387,7 @@ class SET {
                         </env:Envelope>\n`;
 
         soapXMLData = this.normalizeXML(soapXMLData);
+
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
@@ -388,7 +400,8 @@ class SET {
             var parser = new xml2js.Parser({ explicitArray: false });
 
             if (respuestaSuccess.status == 200) {
-              parser
+              if ((respuestaSuccess.data + '').startsWith("{")) {
+                parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
                   //resolve(result['env:Envelope']['env:Body']);
@@ -399,9 +412,12 @@ class SET {
                   resultData["id"] = id;
                   resolve(resultData);
                 });
+              } else {
+                reject(respuestaSuccess.data);
+              }
             } else {
               //reject(new Error("Error en la respuesta de comunicación con la SET " + respuestaSuccess.data));
-              throw new Error("Error de conexión con la SET");
+              reject("Error de conexión con la SET");
             }
           })
           .catch((err: any) => {
@@ -447,12 +463,12 @@ class SET {
         this.abrir(certificado, passphase);
 
         if (xmls.length == 0) {
-          throw new Error(
+          reject(
             "No se envió datos en el array de Documentos electrónicos XMLs"
           );
         }
         if (xmls.length > 50) {
-          throw new Error(
+          reject(
             "Sólo se permiten un máximo de 50 Documentos electrónicos XML por lote"
           );
         }
@@ -463,11 +479,11 @@ class SET {
         }
 
         if (!this.cert) {
-          throw new Error("Antes debe Autenticarse");
+          reject("Antes debe Autenticarse");
         }
 
         if (!this.key) {
-          throw new Error("Antes debe autenticarse");
+          reject("Antes debe autenticarse");
         }
 
         const zip = new JSZip();
@@ -522,7 +538,8 @@ class SET {
             var parser = new xml2js.Parser({ explicitArray: false });
 
             if (respuestaSuccess.status == 200) {
-              parser
+              if ((respuestaSuccess.data + '').startsWith("{")) {
+                parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
                   //resolve(result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe']);
@@ -535,8 +552,11 @@ class SET {
                   delete resultData.$;
                   resolve(resultData);
                 });
+              } else {
+                reject(respuestaSuccess.data);
+              }
             } else {
-              throw new Error("Error de conexión con la SET");
+              reject("Error de conexión con la SET");
             }
           })
           .catch((err: any) => {
@@ -590,11 +610,11 @@ class SET {
         }
 
         if (!this.cert) {
-          throw new Error("Antes debe Autenticarse");
+          reject("Antes debe Autenticarse");
         }
 
         if (!this.key) {
-          throw new Error("Antes debe autenticarse");
+          reject("Antes debe autenticarse");
         }
 
         const httpsAgent = new https.Agent({
@@ -616,7 +636,8 @@ class SET {
             var parser = new xml2js.Parser({ explicitArray: false });
 
             if (respuestaSuccess.status == 200) {
-              parser
+              if ((respuestaSuccess.data + '').startsWith("{")) {
+                parser
                 .parseStringPromise(respuestaSuccess.data)
                 .then(function (result) {
                   ///resolve(result['env:Envelope']['env:Body']);
@@ -625,8 +646,11 @@ class SET {
                   //delete resultData.$;
                   resolve(resultData);
                 });
+              } else {
+                reject(respuestaSuccess.data);
+              }
             } else {
-              throw new Error("Error de conexión con la SET");
+              reject("Error de conexión con la SET");
             }
           })
           .catch((err: any) => {
