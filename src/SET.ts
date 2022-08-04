@@ -91,15 +91,15 @@ class SET {
             //console.log(respuestaSuccess.status);
 
             if (respuestaSuccess.status == 200) {
-              if ((respuestaSuccess.data + '').startsWith("{")) {
+              if ((respuestaSuccess.data + "").startsWith("{")) {
                 parser
-                .parseStringPromise(respuestaSuccess.data)
-                .then(function (result) {
-                  const resultData = result["env:Envelope"]["env:Body"];
-                  //delete resultData.$;
-                  resultData.id = id;
-                  resolve(resultData);
-                });
+                  .parseStringPromise(respuestaSuccess.data)
+                  .then(function (result) {
+                    const resultData = result["env:Envelope"]["env:Body"];
+                    //delete resultData.$;
+                    resultData.id = id;
+                    resolve(resultData);
+                  });
               } else {
                 reject(respuestaSuccess.data);
               }
@@ -189,19 +189,19 @@ class SET {
           })
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
-            
-            if (respuestaSuccess.status == 200) {
-              if ((respuestaSuccess.data + '').startsWith("{")) {
-                parser
-                .parseStringPromise(respuestaSuccess.data)
-                .then(function (result) {
-                  const resultData = JSON.parse(
-                    JSON.stringify(result["env:Envelope"]["env:Body"])
-                  );
-                  resultData.id = id;
 
-                  resolve(resultData);
-                });
+            if (respuestaSuccess.status == 200) {
+              if ((respuestaSuccess.data + "").startsWith("{")) {
+                parser
+                  .parseStringPromise(respuestaSuccess.data)
+                  .then(function (result) {
+                    const resultData = JSON.parse(
+                      JSON.stringify(result["env:Envelope"]["env:Body"])
+                    );
+                    resultData.id = id;
+
+                    resolve(resultData);
+                  });
               } else {
                 reject(respuestaSuccess.data);
               }
@@ -297,14 +297,14 @@ class SET {
             ////console.log(respuestaSuccess.statusCode);
 
             if (respuestaSuccess.status == 200) {
-              if ((respuestaSuccess.data + '').startsWith("{")) {
+              if ((respuestaSuccess.data + "").startsWith("{")) {
                 parser
-                .parseStringPromise(respuestaSuccess.data)
-                .then(function (result) {
-                  const resultData = result["env:Envelope"]["env:Body"];
-                  resultData.id = id;
-                  resolve(resultData);
-                });
+                  .parseStringPromise(respuestaSuccess.data)
+                  .then(function (result) {
+                    const resultData = result["env:Envelope"]["env:Body"];
+                    resultData.id = id;
+                    resolve(resultData);
+                  });
               } else {
                 reject(respuestaSuccess.data);
               }
@@ -400,18 +400,18 @@ class SET {
             var parser = new xml2js.Parser({ explicitArray: false });
 
             if (respuestaSuccess.status == 200) {
-              if ((respuestaSuccess.data + '').startsWith("{")) {
+              if ((respuestaSuccess.data + "").startsWith("{")) {
                 parser
-                .parseStringPromise(respuestaSuccess.data)
-                .then(function (result) {
-                  //resolve(result['env:Envelope']['env:Body']);
-                  const resultData =
-                    //result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"];
-                    result["env:Envelope"]["env:Body"];
-                  //delete resultData.$;
-                  resultData["id"] = id;
-                  resolve(resultData);
-                });
+                  .parseStringPromise(respuestaSuccess.data)
+                  .then(function (result) {
+                    //resolve(result['env:Envelope']['env:Body']);
+                    const resultData =
+                      //result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"];
+                      result["env:Envelope"]["env:Body"];
+                    //delete resultData.$;
+                    resultData["id"] = id;
+                    resolve(resultData);
+                  });
               } else {
                 reject(respuestaSuccess.data);
               }
@@ -538,20 +538,20 @@ class SET {
             var parser = new xml2js.Parser({ explicitArray: false });
 
             if (respuestaSuccess.status == 200) {
-              if ((respuestaSuccess.data + '').startsWith("{")) {
+              if ((respuestaSuccess.data + "").startsWith("{")) {
                 parser
-                .parseStringPromise(respuestaSuccess.data)
-                .then(function (result) {
-                  //resolve(result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe']);
-                  const resultData =
-                    //result["env:Envelope"]["env:Body"]["ns2:rResEnviLoteDe"];
-                    result["env:Envelope"]["env:Body"];
-                  resultData["id"] = id;
-                  //result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe']['id'] = id;
-                  //const resultData = result['env:Envelope']['env:Body'];
-                  delete resultData.$;
-                  resolve(resultData);
-                });
+                  .parseStringPromise(respuestaSuccess.data)
+                  .then(function (result) {
+                    //resolve(result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe']);
+                    const resultData =
+                      //result["env:Envelope"]["env:Body"]["ns2:rResEnviLoteDe"];
+                      result["env:Envelope"]["env:Body"];
+                    resultData["id"] = id;
+                    //result['env:Envelope']['env:Body']['ns2:rResEnviLoteDe']['id'] = id;
+                    //const resultData = result['env:Envelope']['env:Body'];
+                    delete resultData.$;
+                    resolve(resultData);
+                  });
               } else {
                 reject(respuestaSuccess.data);
               }
@@ -636,16 +636,16 @@ class SET {
             var parser = new xml2js.Parser({ explicitArray: false });
 
             if (respuestaSuccess.status == 200) {
-              if ((respuestaSuccess.data + '').startsWith("{")) {
+              if ((respuestaSuccess.data + "").startsWith("{")) {
                 parser
-                .parseStringPromise(respuestaSuccess.data)
-                .then(function (result) {
-                  ///resolve(result['env:Envelope']['env:Body']);
-                  const resultData = result["env:Envelope"]["env:Body"];
-                  resultData.id = id;
-                  //delete resultData.$;
-                  resolve(resultData);
-                });
+                  .parseStringPromise(respuestaSuccess.data)
+                  .then(function (result) {
+                    ///resolve(result['env:Envelope']['env:Body']);
+                    const resultData = result["env:Envelope"]["env:Body"];
+                    resultData.id = id;
+                    //delete resultData.$;
+                    resolve(resultData);
+                  });
               } else {
                 reject(respuestaSuccess.data);
               }
