@@ -91,7 +91,7 @@ class SET {
             //console.log(respuestaSuccess.status);
 
             if (respuestaSuccess.status == 200) {
-              if ((respuestaSuccess.data + "").startsWith("{")) {
+              if ((respuestaSuccess.data + "").startsWith("<?xml")) {
                 parser
                   .parseStringPromise(respuestaSuccess.data)
                   .then(function (result) {
@@ -191,7 +191,7 @@ class SET {
             var parser = new xml2js.Parser({ explicitArray: false });
 
             if (respuestaSuccess.status == 200) {
-              if ((respuestaSuccess.data + "").startsWith("{")) {
+              if ((respuestaSuccess.data + "").startsWith("<?xml")) {
                 parser
                   .parseStringPromise(respuestaSuccess.data)
                   .then(function (result) {
@@ -297,7 +297,7 @@ class SET {
             ////console.log(respuestaSuccess.statusCode);
 
             if (respuestaSuccess.status == 200) {
-              if ((respuestaSuccess.data + "").startsWith("{")) {
+              if ((respuestaSuccess.data + "").startsWith("<?xml")) {
                 parser
                   .parseStringPromise(respuestaSuccess.data)
                   .then(function (result) {
@@ -400,7 +400,7 @@ class SET {
             var parser = new xml2js.Parser({ explicitArray: false });
 
             if (respuestaSuccess.status == 200) {
-              if ((respuestaSuccess.data + "").startsWith("{")) {
+              if ((respuestaSuccess.data + "").startsWith("<?xml")) {
                 parser
                   .parseStringPromise(respuestaSuccess.data)
                   .then(function (result) {
@@ -538,7 +538,7 @@ class SET {
             var parser = new xml2js.Parser({ explicitArray: false });
 
             if (respuestaSuccess.status == 200) {
-              if ((respuestaSuccess.data + "").startsWith("{")) {
+              if ((respuestaSuccess.data + "").startsWith("<?xml")) {
                 parser
                   .parseStringPromise(respuestaSuccess.data)
                   .then(function (result) {
@@ -636,7 +636,7 @@ class SET {
             var parser = new xml2js.Parser({ explicitArray: false });
 
             if (respuestaSuccess.status == 200) {
-              if ((respuestaSuccess.data + "").startsWith("{")) {
+              if ((respuestaSuccess.data + "").startsWith("<?xml")) {
                 parser
                   .parseStringPromise(respuestaSuccess.data)
                   .then(function (result) {
