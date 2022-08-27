@@ -1,6 +1,7 @@
 import JSZip from "jszip";
 import pkcs12 from "./PKCS12";
 import xml2js from "xml2js";
+import { SetApiConfig } from "./type.interface.";
 
 const https = require("https");
 const axios = require("axios");
@@ -40,10 +41,18 @@ class SET {
     cdc: string,
     env: "test" | "prod",
     certificado: any,
-    passphase: any
+    passphase: any,
+    config?: SetApiConfig
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
+        
+        let defaultConfig: SetApiConfig = {
+          debug: false,
+        };
+
+        defaultConfig = Object.assign(defaultConfig, config);
+
         this.abrir(certificado, passphase);
 
         let url = "https://sifen.set.gov.py/de/ws/consultas/consulta.wsdl";
@@ -75,6 +84,10 @@ class SET {
                             </env:Body>\n\
                         </env:Envelope>\n`;
         soapXMLData = this.normalizeXML(soapXMLData);
+
+        if (defaultConfig.debug === true) {
+          console.log("soapXMLData", soapXMLData);
+        }
 
         axios
           .post(`${url}`, soapXMLData, {
@@ -143,10 +156,19 @@ class SET {
     numeroProtocolo: number,
     env: "test" | "prod",
     certificado: any,
-    passphase: any
+    passphase: any,
+    config?: SetApiConfig
   ): Promise<any> {
+
     return new Promise(async (resolve, reject) => {
       try {
+
+        let defaultConfig: SetApiConfig = {
+          debug: false,
+        };
+
+        defaultConfig = Object.assign(defaultConfig, config);
+
         this.abrir(certificado, passphase);
 
         let url = "https://sifen.set.gov.py/de/ws/consultas/consulta-lote.wsdl";
@@ -177,7 +199,12 @@ class SET {
                                 </rEnviConsLoteDe>\n\
                             </env:Body>\n\
                         </env:Envelope>\n`;
+        
         soapXMLData = this.normalizeXML(soapXMLData);
+
+        if (defaultConfig.debug === true) {
+          console.log("soapXMLData", soapXMLData);
+        }
 
         axios
           .post(`${url}`, soapXMLData, {
@@ -242,10 +269,19 @@ class SET {
     ruc: string,
     env: "test" | "prod",
     certificado: any,
-    passphase: any
+    passphase: any,
+    config?: SetApiConfig
   ): Promise<any> {
+    
     return new Promise(async (resolve, reject) => {
       try {
+
+        let defaultConfig: SetApiConfig = {
+          debug: false,
+        };
+
+        defaultConfig = Object.assign(defaultConfig, config);
+        
         this.abrir(certificado, passphase);
 
         let url = "https://sifen.set.gov.py/de/ws/consultas/consulta-ruc.wsdl";
@@ -280,6 +316,10 @@ class SET {
                             </env:Body>\n\
                         </env:Envelope>\n`;
         soapXMLData = this.normalizeXML(soapXMLData);
+
+        if (defaultConfig.debug === true) {
+          console.log("soapXMLData", soapXMLData);
+        }
 
         axios
           .post(`${url}`, soapXMLData, {
@@ -349,10 +389,18 @@ class SET {
     xml: string,
     env: "test" | "prod",
     certificado: any,
-    passphase: any
+    passphase: any,
+    config?: SetApiConfig
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
+
+        let defaultConfig: SetApiConfig = {
+          debug: false,
+        };
+
+        defaultConfig = Object.assign(defaultConfig, config);
+
         this.abrir(certificado, passphase);
 
         let url = "https://sifen.set.gov.py/de/ws/sync/recibe.wsdl";
@@ -387,6 +435,10 @@ class SET {
                         </env:Envelope>\n`;
 
         soapXMLData = this.normalizeXML(soapXMLData);
+
+        if (defaultConfig.debug === true) {
+          console.log("soapXMLData", soapXMLData);
+        }
 
         axios
           .post(`${url}`, soapXMLData, {
@@ -456,10 +508,18 @@ class SET {
     xmls: string[],
     env: "test" | "prod",
     certificado: any,
-    passphase: any
+    passphase: any,
+    config?: SetApiConfig
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
+
+        let defaultConfig: SetApiConfig = {
+          debug: false,
+        };
+
+        defaultConfig = Object.assign(defaultConfig, config);
+
         this.abrir(certificado, passphase);
 
         if (xmls.length == 0) {
@@ -525,6 +585,10 @@ class SET {
                             </env:Body>\n\
                         </env:Envelope>\n`;
         soapXMLData = this.normalizeXML(soapXMLData);
+
+        if (defaultConfig.debug === true) {
+          console.log("soapXMLData", soapXMLData);
+        }
 
         axios
           .post(`${url}`, soapXMLData, {
@@ -598,10 +662,18 @@ class SET {
     xml: string,
     env: "test" | "prod",
     certificado: any,
-    passphase: any
+    passphase: any,
+    config?: SetApiConfig
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
+
+        let defaultConfig: SetApiConfig = {
+          debug: false,
+        };
+
+        defaultConfig = Object.assign(defaultConfig, config);
+
         this.abrir(certificado, passphase);
 
         let url = "https://sifen.set.gov.py/de/ws/eventos/evento.wsdl";
@@ -624,6 +696,10 @@ class SET {
 
         let soapXMLData = this.normalizeXML(xml); //Para el evento, el xml ya viene con SoapData
 
+        if (defaultConfig.debug === true) {
+          console.log("soapXMLData", soapXMLData);
+        }
+        
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
