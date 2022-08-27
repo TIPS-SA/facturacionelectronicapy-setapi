@@ -8,7 +8,7 @@ class SetAPI {
     env: "test" | "prod",
     cert: any,
     key: string,
-    config?: SetApiConfig 
+    config?: SetApiConfig
   ): Promise<any> => {
     return set.consulta(id, cdc, env, cert, key, config);
   };
@@ -18,7 +18,7 @@ class SetAPI {
     env: "test" | "prod",
     cert: any,
     key: string,
-    config?: SetApiConfig 
+    config?: SetApiConfig
   ): Promise<any> => {
     return set.consultaRUC(id, ruc, env, cert, key, config);
   };
@@ -28,7 +28,7 @@ class SetAPI {
     env: "test" | "prod",
     cert: any,
     key: string,
-    config?: SetApiConfig 
+    config?: SetApiConfig
   ): Promise<any> => {
     return set.consultaLote(id, numeroLote, env, cert, key, config);
   };
@@ -38,7 +38,7 @@ class SetAPI {
     env: "test" | "prod",
     cert: any,
     key: string,
-    config?: SetApiConfig 
+    config?: SetApiConfig
   ): Promise<any> => {
     return set.recibe(id, xml, env, cert, key, config);
   };
@@ -48,7 +48,7 @@ class SetAPI {
     env: "test" | "prod",
     cert: any,
     key: string,
-    config?: SetApiConfig 
+    config?: SetApiConfig
   ): Promise<any> => {
     return set.recibeLote(id, xml, env, cert, key, config);
   };
@@ -58,7 +58,7 @@ class SetAPI {
     env: "test" | "prod",
     cert: any,
     key: string,
-    config?: SetApiConfig 
+    config?: SetApiConfig
   ): Promise<any> => {
     return set.evento(id, xml, env, cert, key, config);
   };

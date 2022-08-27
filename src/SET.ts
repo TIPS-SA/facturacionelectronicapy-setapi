@@ -46,7 +46,6 @@ class SET {
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
-        
         let defaultConfig: SetApiConfig = {
           debug: false,
         };
@@ -159,10 +158,8 @@ class SET {
     passphase: any,
     config?: SetApiConfig
   ): Promise<any> {
-
     return new Promise(async (resolve, reject) => {
       try {
-
         let defaultConfig: SetApiConfig = {
           debug: false,
         };
@@ -199,7 +196,7 @@ class SET {
                                 </rEnviConsLoteDe>\n\
                             </env:Body>\n\
                         </env:Envelope>\n`;
-        
+
         soapXMLData = this.normalizeXML(soapXMLData);
 
         if (defaultConfig.debug === true) {
@@ -272,16 +269,14 @@ class SET {
     passphase: any,
     config?: SetApiConfig
   ): Promise<any> {
-    
     return new Promise(async (resolve, reject) => {
       try {
-
         let defaultConfig: SetApiConfig = {
           debug: false,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
-        
+
         this.abrir(certificado, passphase);
 
         let url = "https://sifen.set.gov.py/de/ws/consultas/consulta-ruc.wsdl";
@@ -394,7 +389,6 @@ class SET {
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
-
         let defaultConfig: SetApiConfig = {
           debug: false,
         };
@@ -513,7 +507,6 @@ class SET {
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
-
         let defaultConfig: SetApiConfig = {
           debug: false,
         };
@@ -667,7 +660,6 @@ class SET {
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
-
         let defaultConfig: SetApiConfig = {
           debug: false,
         };
@@ -699,7 +691,7 @@ class SET {
         if (defaultConfig.debug === true) {
           console.log("soapXMLData", soapXMLData);
         }
-        
+
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
