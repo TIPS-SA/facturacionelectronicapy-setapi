@@ -1,6 +1,7 @@
 import JSZip from "jszip";
 import pkcs12 from "./PKCS12";
 import xml2js from "xml2js";
+import fs from "fs";
 import { SetApiConfig } from "./type.interface.";
 
 const https = require("https");
@@ -47,7 +48,7 @@ class SET {
     return new Promise(async (resolve, reject) => {
       try {
         let defaultConfig: SetApiConfig = {
-          debug: false,
+          debug: false
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -86,6 +87,9 @@ class SET {
 
         if (defaultConfig.debug === true) {
           console.log("soapXMLData", soapXMLData);
+        }
+        if (defaultConfig.saveRequestFile) {
+          const json = fs.writeFileSync(defaultConfig.saveRequestFile, soapXMLData);
         }
 
         axios
@@ -203,6 +207,10 @@ class SET {
           console.log("soapXMLData", soapXMLData);
         }
 
+        if (defaultConfig.saveRequestFile) {
+          const json = fs.writeFileSync(defaultConfig.saveRequestFile, soapXMLData);
+        }
+
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
@@ -314,6 +322,10 @@ class SET {
 
         if (defaultConfig.debug === true) {
           console.log("soapXMLData", soapXMLData);
+        }
+
+        if (defaultConfig.saveRequestFile) {
+          const json = fs.writeFileSync(defaultConfig.saveRequestFile, soapXMLData);
         }
 
         axios
@@ -432,6 +444,9 @@ class SET {
 
         if (defaultConfig.debug === true) {
           console.log("soapXMLData", soapXMLData);
+        }
+        if (defaultConfig.saveRequestFile) {
+          const json = fs.writeFileSync(defaultConfig.saveRequestFile, soapXMLData);
         }
 
         axios
@@ -582,6 +597,10 @@ class SET {
         if (defaultConfig.debug === true) {
           console.log("soapXMLData", soapXMLData);
         }
+        
+        if (defaultConfig.saveRequestFile) {
+          const json = fs.writeFileSync(defaultConfig.saveRequestFile, soapXMLData);
+        }
 
         axios
           .post(`${url}`, soapXMLData, {
@@ -690,6 +709,10 @@ class SET {
 
         if (defaultConfig.debug === true) {
           console.log("soapXMLData", soapXMLData);
+        }
+
+        if (defaultConfig.saveRequestFile) {
+          const json = fs.writeFileSync(defaultConfig.saveRequestFile, soapXMLData);
         }
 
         axios
