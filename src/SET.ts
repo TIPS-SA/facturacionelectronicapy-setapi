@@ -48,7 +48,7 @@ class SET {
     return new Promise(async (resolve, reject) => {
       try {
         let defaultConfig: SetApiConfig = {
-          debug: false
+          debug: false,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -89,7 +89,10 @@ class SET {
           console.log("soapXMLData", soapXMLData);
         }
         if (defaultConfig.saveRequestFile) {
-          const json = fs.writeFileSync(defaultConfig.saveRequestFile, soapXMLData);
+          const json = fs.writeFileSync(
+            defaultConfig.saveRequestFile,
+            soapXMLData
+          );
         }
 
         axios
@@ -208,7 +211,10 @@ class SET {
         }
 
         if (defaultConfig.saveRequestFile) {
-          const json = fs.writeFileSync(defaultConfig.saveRequestFile, soapXMLData);
+          const json = fs.writeFileSync(
+            defaultConfig.saveRequestFile,
+            soapXMLData
+          );
         }
 
         axios
@@ -325,7 +331,10 @@ class SET {
         }
 
         if (defaultConfig.saveRequestFile) {
-          const json = fs.writeFileSync(defaultConfig.saveRequestFile, soapXMLData);
+          const json = fs.writeFileSync(
+            defaultConfig.saveRequestFile,
+            soapXMLData
+          );
         }
 
         axios
@@ -446,7 +455,10 @@ class SET {
           console.log("soapXMLData", soapXMLData);
         }
         if (defaultConfig.saveRequestFile) {
-          const json = fs.writeFileSync(defaultConfig.saveRequestFile, soapXMLData);
+          const json = fs.writeFileSync(
+            defaultConfig.saveRequestFile,
+            soapXMLData
+          );
         }
 
         axios
@@ -597,9 +609,12 @@ class SET {
         if (defaultConfig.debug === true) {
           console.log("soapXMLData", soapXMLData);
         }
-        
+
         if (defaultConfig.saveRequestFile) {
-          const json = fs.writeFileSync(defaultConfig.saveRequestFile, soapXMLData);
+          const json = fs.writeFileSync(
+            defaultConfig.saveRequestFile,
+            soapXMLData
+          );
         }
 
         axios
@@ -712,7 +727,10 @@ class SET {
         }
 
         if (defaultConfig.saveRequestFile) {
-          const json = fs.writeFileSync(defaultConfig.saveRequestFile, soapXMLData);
+          const json = fs.writeFileSync(
+            defaultConfig.saveRequestFile,
+            soapXMLData
+          );
         }
 
         axios

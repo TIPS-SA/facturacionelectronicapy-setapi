@@ -1,6 +1,6 @@
 interface SetApiConfig {
   debug?: boolean;
-  saveRequestFile? : string | undefined;
+  saveRequestFile?: string | undefined;
 }
 
 export { SetApiConfig };
