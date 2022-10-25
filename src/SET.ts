@@ -120,10 +120,14 @@ class SET {
                     resolve(resultData);
                   });
               } else {
-                reject(respuestaSuccess.data);
+                if ((respuestaSuccess.data + "").startsWith("<html>")) {
+                  reject(new Error("Error de la SET BIG-IP logout page"));
+                } else {
+                  reject(new Error(respuestaSuccess.data + ""));
+                }
               }
             } else {
-              reject("Error de conexión con la SET");
+              reject(new Error("Error de conexión con la SET"));
             }
           })
           .catch((err: any) => {
@@ -241,10 +245,14 @@ class SET {
                     resolve(resultData);
                   });
               } else {
-                reject(respuestaSuccess.data);
+                if ((respuestaSuccess.data + "").startsWith("<html>")) {
+                  reject(new Error("Error de la SET BIG-IP logout page"));
+                } else {
+                  reject(new Error(respuestaSuccess.data + ""));
+                }
               }
             } else {
-              reject("Error de conexión con la SET");
+              reject(new Error("Error de conexión con la SET"));
             }
           })
           .catch((err: any) => {
@@ -362,11 +370,15 @@ class SET {
                     resolve(resultData);
                   });
               } else {
-                reject(respuestaSuccess.data);
+                if ((respuestaSuccess.data + "").startsWith("<html>")) {
+                  reject(new Error("Error de la SET BIG-IP logout page"));
+                } else {
+                  reject(new Error(respuestaSuccess.data + ""));
+                }              
               }
             } else {
               //reject(new Error("Error en la respuesta de comunicación con la SET " + respuestaSuccess.data));
-              reject("Error de conexión con la SET");
+              reject(new Error("Error de conexión con la SET"));
             }
           })
           .catch((err: any) => {
@@ -486,11 +498,14 @@ class SET {
                     resolve(resultData);
                   });
               } else {
-                reject(respuestaSuccess.data);
-              }
+                if ((respuestaSuccess.data + "").startsWith("<html>")) {
+                  reject(new Error("Error de la SET BIG-IP logout page"));
+                } else {
+                  reject(new Error(respuestaSuccess.data + ""));
+                }              }
             } else {
               //reject(new Error("Error en la respuesta de comunicación con la SET " + respuestaSuccess.data));
-              reject("Error de conexión con la SET");
+              reject(new Error("Error de conexión con la SET"));
             }
           })
           .catch((err: any) => {
@@ -644,10 +659,14 @@ class SET {
                     resolve(resultData);
                   });
               } else {
-                reject(respuestaSuccess.data);
+                if ((respuestaSuccess.data + "").startsWith("<html>")) {
+                  reject(new Error("Error de la SET BIG-IP logout page"));
+                } else {
+                  reject(new Error(respuestaSuccess.data + ""));
+                }
               }
             } else {
-              reject("Error de conexión con la SET");
+              reject(new Error("Error de conexión con la SET"));
             }
           })
           .catch((err: any) => {
@@ -756,10 +775,10 @@ class SET {
                     resolve(resultData);
                   });
               } else {
-                reject(respuestaSuccess.data);
+                reject(new Error(respuestaSuccess.data + ""));
               }
             } else {
-              reject("Error de conexión con la SET");
+              reject(new Error("Error de conexión con la SET"));
             }
           })
           .catch((err: any) => {
