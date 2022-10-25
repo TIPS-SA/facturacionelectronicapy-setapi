@@ -374,7 +374,7 @@ class SET {
                   reject(new Error("Error de la SET BIG-IP logout page"));
                 } else {
                   reject(new Error(respuestaSuccess.data + ""));
-                }              
+                }
               }
             } else {
               //reject(new Error("Error en la respuesta de comunicación con la SET " + respuestaSuccess.data));
@@ -502,7 +502,8 @@ class SET {
                   reject(new Error("Error de la SET BIG-IP logout page"));
                 } else {
                   reject(new Error(respuestaSuccess.data + ""));
-                }              }
+                }
+              }
             } else {
               //reject(new Error("Error en la respuesta de comunicación con la SET " + respuestaSuccess.data));
               reject(new Error("Error de conexión con la SET"));
