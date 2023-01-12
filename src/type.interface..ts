@@ -1,7 +1,7 @@
 interface SetApiConfig {
   debug?: boolean;
   saveRequestFile?: string | undefined;
-  timeout?: number
+  timeout?: number;
 }
 
 export { SetApiConfig };

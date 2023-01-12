@@ -49,7 +49,7 @@ class SET {
       try {
         let defaultConfig: SetApiConfig = {
           debug: false,
-          timeout : 10000,
+          timeout: 10000,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -72,7 +72,6 @@ class SET {
         const httpsAgent = new https.Agent({
           cert: Buffer.from(this.cert, "utf8"),
           key: Buffer.from(this.key, "utf8"),
-          
         });
 
         let soapXMLData = `<?xml version="1.0" encoding="UTF-8"?>\n\
@@ -104,7 +103,7 @@ class SET {
               "Content-Type": "application/xml; charset=utf-8",
             },
             httpsAgent,
-            timeout: defaultConfig.timeout
+            timeout: defaultConfig.timeout,
           })
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
@@ -176,7 +175,7 @@ class SET {
       try {
         let defaultConfig: SetApiConfig = {
           debug: false,
-          timeout : 10000,
+          timeout: 10000,
         };
 
         console.log("El config del params viene ", config);
@@ -234,7 +233,7 @@ class SET {
               "Content-Type": "application/xml; charset=utf-8",
             },
             httpsAgent,
-            timeout: defaultConfig.timeout
+            timeout: defaultConfig.timeout,
           })
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
@@ -304,7 +303,7 @@ class SET {
       try {
         let defaultConfig: SetApiConfig = {
           debug: false,
-          timeout : 10000,
+          timeout: 10000,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -362,7 +361,7 @@ class SET {
               "Content-Type": "application/xml; charset=utf-8",
             },
             httpsAgent,
-            timeout: defaultConfig.timeout
+            timeout: defaultConfig.timeout,
           })
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
@@ -435,7 +434,7 @@ class SET {
       try {
         let defaultConfig: SetApiConfig = {
           debug: false,
-          timeout : 10000,
+          timeout: 10000,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -492,7 +491,7 @@ class SET {
               "Content-Type": "application/xml; charset=utf-8",
             },
             httpsAgent,
-            timeout: defaultConfig.timeout
+            timeout: defaultConfig.timeout,
           })
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
@@ -565,7 +564,7 @@ class SET {
       try {
         let defaultConfig: SetApiConfig = {
           debug: false,
-          timeout : 10000,
+          timeout: 10000,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -654,7 +653,7 @@ class SET {
               "Content-Type": "application/xml; charset=utf-8",
             },
             httpsAgent,
-            timeout: defaultConfig.timeout
+            timeout: defaultConfig.timeout,
           })
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
@@ -731,7 +730,7 @@ class SET {
       try {
         let defaultConfig: SetApiConfig = {
           debug: false,
-          timeout : 10000,
+          timeout: 10000,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -776,7 +775,7 @@ class SET {
               "Content-Type": "application/xml; charset=utf-8",
             },
             httpsAgent,
-            timeout: defaultConfig.timeout
+            timeout: defaultConfig.timeout,
           })
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
