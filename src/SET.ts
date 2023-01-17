@@ -49,7 +49,7 @@ class SET {
       try {
         let defaultConfig: SetApiConfig = {
           debug: false,
-          timeout: 10000,
+          timeout: 90000,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -175,7 +175,7 @@ class SET {
       try {
         let defaultConfig: SetApiConfig = {
           debug: false,
-          timeout: 10000,
+          timeout: 90000,
         };
 
         console.log("El config del params viene ", config);
@@ -303,7 +303,7 @@ class SET {
       try {
         let defaultConfig: SetApiConfig = {
           debug: false,
-          timeout: 10000,
+          timeout: 90000,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -434,7 +434,7 @@ class SET {
       try {
         let defaultConfig: SetApiConfig = {
           debug: false,
-          timeout: 10000,
+          timeout: 90000,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -564,7 +564,7 @@ class SET {
       try {
         let defaultConfig: SetApiConfig = {
           debug: false,
-          timeout: 10000,
+          timeout: 90000,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -730,7 +730,7 @@ class SET {
       try {
         let defaultConfig: SetApiConfig = {
           debug: false,
-          timeout: 10000,
+          timeout: 90000,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
