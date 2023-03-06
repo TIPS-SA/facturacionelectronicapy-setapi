@@ -178,7 +178,7 @@ class SET {
           timeout: 90000,
         };
 
-        console.log("El config del params viene ", config);
+        // console.log("El config del params viene ", config);
 
         defaultConfig = Object.assign(defaultConfig, config);
 
@@ -262,7 +262,7 @@ class SET {
             }
           })
           .catch((err: any) => {
-            console.log("CAtch en error 1111", err);
+            console.error("Catch en error 1111", err);
             if (err && err.response && err.response.data) {
               var xmlResponse = err.response.data;
               var parser = new xml2js.Parser({ explicitArray: false });
@@ -280,7 +280,7 @@ class SET {
             }
           });
       } catch (error) {
-        console.log("CAtch en error 2222", error);
+        console.error("Catch en error 2222", error);
         reject(error);
       }
     });
@@ -368,7 +368,7 @@ class SET {
 
             //console.log("respuestaSuccess.data", respuestaSuccess.data);
             //console.log("statuscode", respuestaSuccess.status);
-            ////console.log(respuestaSuccess.statusCode);
+            //console.log(respuestaSuccess.statusCode);
 
             if (respuestaSuccess.status == 200) {
               if ((respuestaSuccess.data + "").startsWith("<?xml")) {
