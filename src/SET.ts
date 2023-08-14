@@ -792,7 +792,11 @@ class SET {
                     resolve(resultData);
                   });
               } else {
-                reject(new Error(respuestaSuccess.data + ""));
+                if ((respuestaSuccess.data + "").startsWith("<html>")) {
+                  reject(new Error("Error de la SET BIG-IP logout page"));
+                } else {
+                  reject(new Error(respuestaSuccess.data + ""));
+                }
               }
             } else {
               reject(new Error("Error de conexión con la SET"));
