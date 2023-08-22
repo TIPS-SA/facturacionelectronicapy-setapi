@@ -178,7 +178,7 @@ class SET {
           timeout: 90000,
         };
 
-        console.log("El config del params viene ", config);
+        //console.log("El config del params viene ", config);
 
         defaultConfig = Object.assign(defaultConfig, config);
 
