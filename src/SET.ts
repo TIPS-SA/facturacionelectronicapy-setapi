@@ -511,6 +511,7 @@ class SET {
                   });
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
+                  console.log("setApi - recibe " + respuestaSuccess.data);
                   reject(new Error("Error de la SET BIG-IP logout page"));
                 } else {
                   reject(new Error(respuestaSuccess.data + ""));
@@ -675,6 +676,7 @@ class SET {
                   });
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
+                  console.log("setApi - recibe " + respuestaSuccess.data);
                   reject(new Error("Error de la SET BIG-IP logout page"));
                 } else {
                   reject(new Error(respuestaSuccess.data + ""));
@@ -793,6 +795,7 @@ class SET {
                   });
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
+                  console.log("setApi - recibe " + respuestaSuccess.data);
                   reject(new Error("Error de la SET BIG-IP logout page"));
                 } else {
                   reject(new Error(respuestaSuccess.data + ""));
