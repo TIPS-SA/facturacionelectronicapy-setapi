@@ -32,6 +32,12 @@ class SET {
     this.key = pkcs12.getPrivateKey();
   }
 
+
+  private flujoPorDefecto(){
+   
+  }
+
+
   /**
    * Consulta un Documento Electronico por CDC
    *
@@ -1018,17 +1024,6 @@ class SET {
         reject(error);
       }
     });
-  }
-
-  private normalizeXML(xml: string) {
-    xml = xml.split("\r\n").join("");
-    xml = xml.split("\n").join("");
-    xml = xml.split("\t").join("");
-    xml = xml.split("    ").join("");
-    xml = xml.split(">    <").join("><");
-    xml = xml.split(">  <").join("><");
-    xml = xml.replace(/\r?\n|\r/g, "");
-    return xml;
   }
 }
 
