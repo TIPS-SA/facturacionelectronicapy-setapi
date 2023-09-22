@@ -4,6 +4,7 @@ import xml2js from "xml2js";
 import fs from "fs";
 import { SetApiConfig } from "./type.interface.";
 import { Worker } from 'worker_threads';
+import { getXmlSoapInput, normalizeXML } from "./utils/xmlUtils"
 
 const https = require("https");
 const axios = require("axios");
@@ -32,10 +33,6 @@ class SET {
     this.key = pkcs12.getPrivateKey();
   }
 
-
-  private flujoPorDefecto(){
-   
-  }
 
 
   /**
@@ -81,17 +78,7 @@ class SET {
           key: Buffer.from(this.key, "utf8"),
         });
 
-        let soapXMLData = `<?xml version="1.0" encoding="UTF-8"?>\n\
-                        <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
-                            <env:Header/>\n\
-                            <env:Body>\n\
-                                <rEnviConsDeRequest xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
-                                  <dId>${id}</dId>\n\
-                                  <dCDC>${cdc}</dCDC>\n\
-                                </rEnviConsDeRequest>\n\
-                            </env:Body>\n\
-                        </env:Envelope>\n`;
-        soapXMLData = this.normalizeXML(soapXMLData);
+        const soapXMLData = getXmlSoapInput({id, cdc}, 'consulta')
 
         if (defaultConfig.debug === true) {
           console.log("soapXMLData", soapXMLData);
@@ -399,17 +386,8 @@ class SET {
           key: Buffer.from(this.key, "utf8"),
         });
 
-        let soapXMLData = `<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
-                            <env:Header/>\n\
-                            <env:Body>\n\
-                                <rEnviConsLoteDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
-                                    <dId>${id}</dId>\n\
-                                    <dProtConsLote>${numeroProtocolo}</dProtConsLote>\n\
-                                </rEnviConsLoteDe>\n\
-                            </env:Body>\n\
-                        </env:Envelope>\n`;
-
-        soapXMLData = this.normalizeXML(soapXMLData);
+        
+        const soapXMLData = getXmlSoapInput({id, numeroProtocolo}, 'consultaLote');
 
         if (defaultConfig.debug === true) {
           console.log("soapXMLData", soapXMLData);
@@ -528,16 +506,7 @@ class SET {
                     secureOptions : constants.SSL_OP_NO_SSLv2 | constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_TLSv1 | constants.SSL_OP_NO_TLSv1_1*/
         });
 
-        let soapXMLData = `<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
-                            <env:Header/>\n\
-                            <env:Body>\n\
-                                <rEnviConsRUC xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
-                                    <dId>${id}</dId>\n\
-                                    <dRUCCons>${ruc}</dRUCCons>\n\
-                                </rEnviConsRUC>\n\
-                            </env:Body>\n\
-                        </env:Envelope>\n`;
-        soapXMLData = this.normalizeXML(soapXMLData);
+        const soapXMLData = getXmlSoapInput({id, ruc}, 'consultaRUC');
 
         if (defaultConfig.debug === true) {
           console.log("soapXMLData", soapXMLData);
@@ -657,18 +626,7 @@ class SET {
 
         xml = xml.split("\n").slice(1).join("\n"); //Retirar <xml>
 
-        let soapXMLData = `<?xml version="1.0" encoding="UTF-8"?>\n\
-                        <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
-                            <env:Header/>\n\
-                            <env:Body>\n\
-                                <rEnviDe xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
-                                    <dId>${id}</dId>\n\
-                                    <xDE>${xml}</xDE>\n\
-                                </rEnviDe>\n\
-                            </env:Body>\n\
-                        </env:Envelope>\n`;
-
-        soapXMLData = this.normalizeXML(soapXMLData);
+        const soapXMLData = getXmlSoapInput({id, xml}, 'recibe')
 
         if (defaultConfig.debug === true) {
           console.log("soapXMLData", soapXMLData);
@@ -802,7 +760,7 @@ class SET {
           rLoteDEXml += `${xml}\n`;
         }
         rLoteDEXml += `</rLoteDE>`;
-        rLoteDEXml = this.normalizeXML(rLoteDEXml);
+        rLoteDEXml = normalizeXML(rLoteDEXml);
 
         zip.file(
           `xml_file.xml`,
@@ -819,18 +777,7 @@ class SET {
           //minVersion: "TLSv1",
         });
 
-        //axios.get(`${url}`, { httpsAgent }).then((respuesta: any) => {
-        let soapXMLData = `<?xml version="1.0" encoding="UTF-8"?>\n\
-                        <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
-                            <env:Header/>\n\
-                            <env:Body>\n\
-                                <rEnvioLote xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
-                                    <dId>${id}</dId>\n\
-                                    <xDE>${zipAsBase64}</xDE>\n\
-                                </rEnvioLote>\n\
-                            </env:Body>\n\
-                        </env:Envelope>\n`;
-        soapXMLData = this.normalizeXML(soapXMLData);
+        const soapXMLData = getXmlSoapInput({id, zipAsBase64}, 'recibeLote')
 
         if (defaultConfig.debug === true) {
           console.log("soapXMLData", soapXMLData);
@@ -953,7 +900,7 @@ class SET {
           key: Buffer.from(this.key, "utf8"),
         });
 
-        let soapXMLData = this.normalizeXML(xml); //Para el evento, el xml ya viene con SoapData
+        let soapXMLData = normalizeXML(xml); //Para el evento, el xml ya viene con SoapData
 
         if (defaultConfig.debug === true) {
           console.log("soapXMLData", soapXMLData);

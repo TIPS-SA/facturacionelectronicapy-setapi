@@ -1,4 +1,4 @@
-import { XmlInput } from '../types/generics'
+import { XmlInput, XmlOperation } from '../types/generics'
 
 /**
  * Normilize an xml
@@ -18,6 +18,8 @@ export const normalizeXML = (xml: string) : string =>  {
 
 /**
  * Prepare the xml for soap api
+ * @todo create an exception in case operation is not exist
+ * 
  * @param data 
  * @param operation 
  * @returns 
@@ -51,7 +53,7 @@ export const prepareXmlSoap = (data: XmlInput, operation: string = '') : string 
                               <xDE>${data.zipAsBase64}</xDE>\n\
                            </rEnvioLote>\n`;
 
-      const _body = {
+      const _body: XmlOperation = {
          consulta,
          consultaLote,
          consultaRUC,
