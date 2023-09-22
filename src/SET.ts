@@ -34,7 +34,6 @@ class SET {
   }
 
 
-
   /**
    * Consulta un Documento Electronico por CDC
    *
@@ -208,7 +207,7 @@ class SET {
                             </env:Body>\n\
                         </env:Envelope>\n`;
 
-        soapXMLData = this.normalizeXML(soapXMLData);
+        soapXMLData = normalizeXML(soapXMLData);
 
         if (defaultConfig.debug === true) {
           console.log("soapXMLData", soapXMLData);
