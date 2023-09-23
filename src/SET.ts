@@ -7,6 +7,7 @@ import { Worker } from 'worker_threads';
 import { getXmlSoapInput, normalizeXML } from "./utils/xmlUtils"
 
 import { API_PATH } from './config/apiPath'
+import { SET_API_HEADER, SET_API_TIMEOUT } from "./config/config";
 const https = require("https");
 const axios = require("axios");
 
@@ -33,7 +34,25 @@ class SET {
     this.key = pkcs12.getPrivateKey();
   }
 
-  private generateUrlOfOperation(
+
+   private getHttpAgent(){
+      return new https.Agent({
+         cert: Buffer.from(this.cert, "utf8"),
+         key: Buffer.from(this.key, "utf8"),
+      });
+   }
+
+
+  /**
+   * Open certified with his passphrase and get the url of operation
+   * @param operation 
+   * @param certificado 
+   * @param passphase 
+   * @param soapXMLData 
+   * @param config 
+   * @returns 
+   */
+  private generateOfOperation(
       operation: string, 
       certificado: any,
       passphase: any,
@@ -50,31 +69,79 @@ class SET {
 
          this.abrir(certificado, passphase);
 
-         //console.log("URL invocado...", url);
-         if (!this.cert) {
+         if (!this.cert || !this.key)
             throw "Antes debe Autenticarse";
-         }
 
-         if (!this.key) {
-            throw "Antes debe autenticarse";
-         }
-
-         if (defaultConfig.debug === true) {
+         if (defaultConfig.debug)
             console.log("soapXMLData", soapXMLData);
-         }
+
          if (defaultConfig.saveRequestFile) {
-            const json = fs.writeFileSync(
+            fs.writeFileSync(
                defaultConfig.saveRequestFile,
                soapXMLData
             );
          }
 
+
          // url to connect a webservice, the env is defined in config
          const url = API_PATH[operation];
-         return url;
+         return {
+            url,
+            defaultConfig
+         };
          
       } catch (error) {
-         
+         console.error('generateUrlOfOperation:', error)
+         throw error
+      }
+  }
+
+
+
+  private async basicSubmitHttpRequest(url: string, soapXMLData : string){
+      try {
+         const response = await axios.post(url, soapXMLData, {
+            headers: SET_API_HEADER,
+            httpsAgent : this.getHttpAgent(),
+            timeout: SET_API_TIMEOUT,
+         })   
+
+         const { status, data } = response;
+
+         if (status != 200)
+            throw `status error - code: ${status}`
+
+         if ((data + '').startsWith("<html>"))
+            throw "Error de la SET BIG-IP logout page"
+
+         if (!(data + '').startsWith("<?xml"))
+            throw "Data is not start with <?xml"
+
+         const parser = new xml2js.Parser({ explicitArray: false });
+         const result = await parser.parseStringPromise(data)
+         const resultData = result["env:Envelope"]["env:Body"];
+         //delete resultData.$;
+         resultData.id = id;
+         return resultData;
+
+      } catch (err) {
+         if (err && err.response && err.response.data) {
+            var xmlResponse = err.response.data;
+            var parser = new xml2js.Parser({ explicitArray: false });
+
+            parser
+               .parseStringPromise(xmlResponse)
+               .then(function (result) {
+               const resultData = result["env:Envelope"]["env:Body"];
+               resultData.id = id;
+               resolve(resultData);
+               })
+               .catch(function (err) {
+               reject(err);
+               });
+         } else {
+            reject(err);
+         }  
       }
   }
 
@@ -96,70 +163,15 @@ class SET {
     return new Promise(async (resolve, reject) => {
       try {
         
-
-        const httpsAgent = new https.Agent({
-          cert: Buffer.from(this.cert, "utf8"),
-          key: Buffer.from(this.key, "utf8"),
-        });
-
         const soapXMLData = getXmlSoapInput({id, cdc}, 'consulta')
-        const url = this.generateUrlOfOperation('consulta', certificado, passphase, soapXMLData, config)
-        
-        axios
-          .post(`${url}`, soapXMLData, {
-            headers: {
-              "User-Agent": "facturaSend",
-              "Content-Type": "application/xml; charset=utf-8",
-            },
-            httpsAgent,
-            timeout: defaultConfig.timeout,
-          })
-          .then((respuestaSuccess: any) => {
-            var parser = new xml2js.Parser({ explicitArray: false });
+        const { url,httpsAgent, defaultConfig} = this.generateOfOperation(
+            'consulta', 
+            certificado, 
+            passphase, 
+            soapXMLData, 
+            config
+         )
 
-            //console.log("statuscode", respuestaSuccess);
-            //console.log(respuestaSuccess.status);
-
-            if (respuestaSuccess.status == 200) {
-              if ((respuestaSuccess.data + "").startsWith("<?xml")) {
-                parser
-                  .parseStringPromise(respuestaSuccess.data)
-                  .then(function (result) {
-                    const resultData = result["env:Envelope"]["env:Body"];
-                    //delete resultData.$;
-                    resultData.id = id;
-                    resolve(resultData);
-                  });
-              } else {
-                if ((respuestaSuccess.data + "").startsWith("<html>")) {
-                  reject(new Error("Error de la SET BIG-IP logout page"));
-                } else {
-                  reject(new Error(respuestaSuccess.data + ""));
-                }
-              }
-            } else {
-              reject(new Error("Error de conexión con la SET"));
-            }
-          })
-          .catch((err: any) => {
-            if (err && err.response && err.response.data) {
-              var xmlResponse = err.response.data;
-              var parser = new xml2js.Parser({ explicitArray: false });
-
-              parser
-                .parseStringPromise(xmlResponse)
-                .then(function (result) {
-                  const resultData = result["env:Envelope"]["env:Body"];
-                  resultData.id = id;
-                  resolve(resultData);
-                })
-                .catch(function (err) {
-                  reject(err);
-                });
-            } else {
-              reject(err);
-            }
-          });
       } catch (error) {
         reject(error);
       }
