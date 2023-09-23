@@ -7,7 +7,7 @@ import { Worker } from 'worker_threads';
 import { getXmlSoapInput, normalizeXML } from "./utils/xmlUtils"
 
 import { API_PATH } from './config/apiPath'
-import { SET_API_HEADER, SET_API_TIMEOUT } from "./config/config";
+import { SET_API_HEADER, SET_API_TIMEOUT, SET_API_DEBUG } from "./config/config";
 const https = require("https");
 const axios = require("axios");
 
@@ -28,13 +28,13 @@ class SET {
   }
   */
 
-  private abrir(certificado: any, passphase: string) {
+  abrir(certificado: any, passphase: string) {
     pkcs12.openFile(certificado, passphase);
     this.cert = pkcs12.getCertificate();
     this.key = pkcs12.getPrivateKey();
   }
 
-
+  
    private getHttpAgent(){
       return new https.Agent({
          cert: Buffer.from(this.cert, "utf8"),
@@ -45,50 +45,40 @@ class SET {
 
   /**
    * Open certified with his passphrase and get the url of operation
+   * 
+   * @todo create a strategy of saveRequestFile get a .env of config and 
+   * pass another functions like consulta or other
+   * 
    * @param operation 
    * @param certificado 
    * @param passphase 
    * @param soapXMLData 
    * @param config 
+   * @param saveRequestFile {boolean|string} is equal to path of save file
    * @returns 
    */
-  private generateOfOperation(
+  private generateUrlOfOperation(
       operation: string, 
       certificado: any,
       passphase: any,
       soapXMLData: string,
-      config?: SetApiConfig
+      saveRequestFile: string|boolean = false
    ){
       try {
-         let defaultConfig: SetApiConfig = {
-            debug: false,
-            timeout: 90000,
-         };
-
-         defaultConfig = Object.assign(defaultConfig, config);
-
-         this.abrir(certificado, passphase);
-
          if (!this.cert || !this.key)
             throw "Antes debe Autenticarse";
 
-         if (defaultConfig.debug)
+         this.abrir(certificado, passphase);
+
+         if (SET_API_DEBUG)
             console.log("soapXMLData", soapXMLData);
 
-         if (defaultConfig.saveRequestFile) {
-            fs.writeFileSync(
-               defaultConfig.saveRequestFile,
-               soapXMLData
-            );
-         }
-
+         if (typeof saveRequestFile === 'string')
+            fs.writeFileSync( saveRequestFile, soapXMLData );
 
          // url to connect a webservice, the env is defined in config
          const url = API_PATH[operation];
-         return {
-            url,
-            defaultConfig
-         };
+         return url;
          
       } catch (error) {
          console.error('generateUrlOfOperation:', error)
@@ -96,9 +86,30 @@ class SET {
       }
   }
 
+  /**
+   * Parse Envolepe Body Xml to JSON
+   * @param xmlData 
+   * @returns 
+   */
+   private async parseEnvelopeBodyToJson(xmlData: string){
+      const parser = new xml2js.Parser({ explicitArray: false });
+      const result = await parser.parseStringPromise(xmlData)
+      const parseResult = JSON.parse(
+         JSON.stringify(result["env:Envelope"]["env:Body"])
+      );
+      return parseResult;
+   }
 
 
-  private async basicSubmitHttpRequest(url: string, soapXMLData : string){
+  /**
+   * Submit a http response
+   * @param url 
+   * @param soapXMLData 
+   * @returns 
+   */
+  private async basicSubmitHttpRequest(id: number, url: string, soapXMLData : string){
+      let data = null
+
       try {
          const response = await axios.post(url, soapXMLData, {
             headers: SET_API_HEADER,
@@ -106,7 +117,8 @@ class SET {
             timeout: SET_API_TIMEOUT,
          })   
 
-         const { status, data } = response;
+         const { status } = response;
+         data = response.data
 
          if (status != 200)
             throw `status error - code: ${status}`
@@ -117,31 +129,11 @@ class SET {
          if (!(data + '').startsWith("<?xml"))
             throw "Data is not start with <?xml"
 
-         const parser = new xml2js.Parser({ explicitArray: false });
-         const result = await parser.parseStringPromise(data)
-         const resultData = result["env:Envelope"]["env:Body"];
-         //delete resultData.$;
-         resultData.id = id;
-         return resultData;
-
-      } catch (err) {
-         if (err && err.response && err.response.data) {
-            var xmlResponse = err.response.data;
-            var parser = new xml2js.Parser({ explicitArray: false });
-
-            parser
-               .parseStringPromise(xmlResponse)
-               .then(function (result) {
-               const resultData = result["env:Envelope"]["env:Body"];
-               resultData.id = id;
-               resolve(resultData);
-               })
-               .catch(function (err) {
-               reject(err);
-               });
-         } else {
-            reject(err);
-         }  
+      } catch (err : any) {
+         data = err.response;
+      } finally {
+         const resultData = await this.parseEnvelopeBodyToJson(data);
+         return { ...resultData, id };
       }
   }
 
@@ -152,7 +144,7 @@ class SET {
    * @param cdc
    * @returns
    */
-  consulta(
+  async consulta(
     id: number,
     cdc: string,
     env: "test" | "prod",
@@ -160,23 +152,21 @@ class SET {
     passphase: any,
     config?: SetApiConfig
   ): Promise<any> {
-    return new Promise(async (resolve, reject) => {
       try {
         
         const soapXMLData = getXmlSoapInput({id, cdc}, 'consulta')
-        const { url,httpsAgent, defaultConfig} = this.generateOfOperation(
+        const { url } = this.generateUrlOfOperation(
             'consulta', 
             certificado, 
             passphase, 
-            soapXMLData, 
-            config
+            soapXMLData
          )
+         return await this.basicSubmitHttpRequest(id, url, soapXMLData)
 
       } catch (error) {
-        reject(error);
+        throw error
       }
-    });
-  }
+   }
 
   /**
    * Consulta un lote en la SET
