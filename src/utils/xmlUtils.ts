@@ -1,3 +1,4 @@
+import { SET_API_OPERATIONS } from '../config/config';
 import { XmlInput, XmlOperation } from '../types/generics'
 
 /**
@@ -24,8 +25,12 @@ export const normalizeXML = (xml: string) : string =>  {
  * @param operation 
  * @returns 
  */
-export const prepareXmlSoap = (data: XmlInput, operation: string = '') : string => {
+export const prepareXmlSoap = (data: XmlInput, operation: string) : string => {
    try {
+
+      if (SET_API_OPERATIONS.indexOf(operation) < 0) 
+         throw "Operation is not defined"
+
       const consulta = `<rEnviConsDeRequest xmlns="http://ekuatia.set.gov.py/sifen/xsd">\n\
                            <dId>${data.id}</dId>\n\
                            <dCDC>${data.cdc}</dCDC>\n\
@@ -61,11 +66,12 @@ export const prepareXmlSoap = (data: XmlInput, operation: string = '') : string 
          recibeLote
       }
 
+
       let xmlResult = `<?xml version="1.0" encoding="UTF-8"?>\n\
                         <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
                               <env:Header/>\n\
                               <env:Body>\n\
-                                 ${_body[operation]}
+                                 ${_body['']}
                               </env:Body>\n\
                         </env:Envelope>\n`
       

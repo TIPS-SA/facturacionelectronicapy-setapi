@@ -9,6 +9,7 @@ export type XmlInput = {
 
 
 export type XmlOperation = {
+   [index: string]: string,
    consulta: string,
    consultaLote: string,
    consultaRUC: string,

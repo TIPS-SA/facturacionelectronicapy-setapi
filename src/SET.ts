@@ -129,8 +129,8 @@ class SET {
          if (!(data + '').startsWith("<?xml"))
             throw "Data is not start with <?xml"
 
-      } catch (err : any) {
-         data = err.response;
+      } catch (err) {
+          = err.response;
       } finally {
          const resultData = await this.parseEnvelopeBodyToJson(data);
          return { ...resultData, id };
@@ -370,7 +370,13 @@ class SET {
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
+        let defaultConfig: SetApiConfig = {
+            debug: false,
+            timeout: 90000,
+         };
 
+         defaultConfig = Object.assign(defaultConfig, config);
+         
         if (!this.cert) {
           reject("Antes debe Autenticarse");
         }
