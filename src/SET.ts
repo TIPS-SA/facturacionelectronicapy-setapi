@@ -6,11 +6,11 @@ import { SetApiConfig } from "./type.interface.";
 import { Worker } from 'worker_threads';
 import { getXmlSoapInput, normalizeXML } from "./utils/xmlUtils"
 
+import { API_PATH } from './config/apiPath'
 const https = require("https");
 const axios = require("axios");
 
 class SET {
-  /*  private env: any;*/
   private cert: any;
   private key: any;
 
@@ -27,10 +27,55 @@ class SET {
   }
   */
 
-  abrir(certificado: any, passphase: string) {
+  private abrir(certificado: any, passphase: string) {
     pkcs12.openFile(certificado, passphase);
     this.cert = pkcs12.getCertificate();
     this.key = pkcs12.getPrivateKey();
+  }
+
+  private generateUrlOfOperation(
+      operation: string, 
+      certificado: any,
+      passphase: any,
+      soapXMLData: string,
+      config?: SetApiConfig
+   ){
+      try {
+         let defaultConfig: SetApiConfig = {
+            debug: false,
+            timeout: 90000,
+         };
+
+         defaultConfig = Object.assign(defaultConfig, config);
+
+         this.abrir(certificado, passphase);
+
+         //console.log("URL invocado...", url);
+         if (!this.cert) {
+            throw "Antes debe Autenticarse";
+         }
+
+         if (!this.key) {
+            throw "Antes debe autenticarse";
+         }
+
+         if (defaultConfig.debug === true) {
+            console.log("soapXMLData", soapXMLData);
+         }
+         if (defaultConfig.saveRequestFile) {
+            const json = fs.writeFileSync(
+               defaultConfig.saveRequestFile,
+               soapXMLData
+            );
+         }
+
+         // url to connect a webservice, the env is defined in config
+         const url = API_PATH[operation];
+         return url;
+         
+      } catch (error) {
+         
+      }
   }
 
 
@@ -50,27 +95,7 @@ class SET {
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
-        let defaultConfig: SetApiConfig = {
-          debug: false,
-          timeout: 90000,
-        };
-
-        defaultConfig = Object.assign(defaultConfig, config);
-
-        this.abrir(certificado, passphase);
-
-        let url = "https://sifen.set.gov.py/de/ws/consultas/consulta.wsdl";
-        if (env == "test") {
-          url = "https://sifen-test.set.gov.py/de/ws/consultas/consulta.wsdl";
-        }
-        //console.log("URL invocado...", url);
-        if (!this.cert) {
-          reject("Antes debe Autenticarse");
-        }
-
-        if (!this.key) {
-          reject("Antes debe autenticarse");
-        }
+        
 
         const httpsAgent = new https.Agent({
           cert: Buffer.from(this.cert, "utf8"),
@@ -78,17 +103,8 @@ class SET {
         });
 
         const soapXMLData = getXmlSoapInput({id, cdc}, 'consulta')
-
-        if (defaultConfig.debug === true) {
-          console.log("soapXMLData", soapXMLData);
-        }
-        if (defaultConfig.saveRequestFile) {
-          const json = fs.writeFileSync(
-            defaultConfig.saveRequestFile,
-            soapXMLData
-          );
-        }
-
+        const url = this.generateUrlOfOperation('consulta', certificado, passphase, soapXMLData, config)
+        
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
@@ -166,15 +182,12 @@ class SET {
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
-        let defaultConfig: SetApiConfig = {
-          debug: false,
-          timeout: 90000,
-        };
+         let defaultConfig: SetApiConfig = {
+            debug: false,
+            timeout: 90000,
+         };
 
-        //console.log("El config del params viene ", config);
-
-        defaultConfig = Object.assign(defaultConfig, config);
-
+         defaultConfig = Object.assign(defaultConfig, config);
         
         let url = "https://sifen.set.gov.py/de/ws/consultas/consulta-lote.wsdl";
         if (env == "test") {
@@ -355,22 +368,6 @@ class SET {
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
-        let defaultConfig: SetApiConfig = {
-          debug: false,
-          timeout: 90000,
-        };
-
-        //console.log("El config del params viene ", config);
-
-        defaultConfig = Object.assign(defaultConfig, config);
-
-        this.abrir(certificado, passphase);
-
-        let url = "https://sifen.set.gov.py/de/ws/consultas/consulta-lote.wsdl";
-        if (env == "test") {
-          url =
-            "https://sifen-test.set.gov.py/de/ws/consultas/consulta-lote.wsdl";
-        }
 
         if (!this.cert) {
           reject("Antes debe Autenticarse");
