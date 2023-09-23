@@ -155,7 +155,7 @@ class SET {
       try {
         
         const soapXMLData = getXmlSoapInput({id, cdc}, 'consulta')
-        const { url } = this.generateUrlOfOperation(
+        const url = this.generateUrlOfOperation(
             'consulta', 
             certificado, 
             passphase, 
