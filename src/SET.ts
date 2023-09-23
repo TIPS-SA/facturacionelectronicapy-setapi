@@ -184,12 +184,15 @@ class SET {
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
-         let defaultConfig: SetApiConfig = {
-            debug: false,
-            timeout: 90000,
-         };
+        let defaultConfig: SetApiConfig = {
+          debug: false,
+          timeout: 90000,
+        };
 
-         defaultConfig = Object.assign(defaultConfig, config);
+        //console.log("El config del params viene ", config);
+
+        defaultConfig = Object.assign(defaultConfig, config);
+
         
         let url = "https://sifen.set.gov.py/de/ws/consultas/consulta-lote.wsdl";
         if (env == "test") {
@@ -371,12 +374,22 @@ class SET {
     return new Promise(async (resolve, reject) => {
       try {
         let defaultConfig: SetApiConfig = {
-            debug: false,
-            timeout: 90000,
-         };
+          debug: false,
+          timeout: 90000,
+        };
 
-         defaultConfig = Object.assign(defaultConfig, config);
-         
+        //console.log("El config del params viene ", config);
+
+        defaultConfig = Object.assign(defaultConfig, config);
+
+        this.abrir(certificado, passphase);
+
+        let url = "https://sifen.set.gov.py/de/ws/consultas/consulta-lote.wsdl";
+        if (env == "test") {
+          url =
+            "https://sifen-test.set.gov.py/de/ws/consultas/consulta-lote.wsdl";
+        }
+
         if (!this.cert) {
           reject("Antes debe Autenticarse");
         }
