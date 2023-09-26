@@ -71,7 +71,7 @@ export const prepareXmlSoap = (data: XmlInput, operation: string) : string => {
                         <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
                               <env:Header/>\n\
                               <env:Body>\n\
-                                 ${_body['']}
+                                 ${_body[operation]}
                               </env:Body>\n\
                         </env:Envelope>\n`
       

@@ -129,7 +129,7 @@ class SET {
          if (!(data + '').startsWith("<?xml"))
             throw "Data is not start with <?xml"
 
-      } catch (err) {
+      } catch (err: any) {
          data = err?.response?.data;
       } finally {
          const resultData = await this.parseEnvelopeBodyToJson(data);
