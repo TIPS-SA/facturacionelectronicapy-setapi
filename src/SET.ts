@@ -3,7 +3,7 @@ import pkcs12 from "./PKCS12";
 import xml2js from "xml2js";
 import fs from "fs";
 import { SetApiConfig } from "./type.interface.";
-import { Worker } from 'worker_threads';
+import { Worker } from "worker_threads";
 
 const https = require("https");
 const axios = require("axios");
@@ -183,7 +183,6 @@ class SET {
 
         defaultConfig = Object.assign(defaultConfig, config);
 
-        
         let url = "https://sifen.set.gov.py/de/ws/consultas/consulta-lote.wsdl";
         if (env == "test") {
           url =
@@ -228,62 +227,52 @@ class SET {
           );
         }
 
-        console.log("soapXMLData", { 
-          url, 
+        console.log("soapXMLData", {
+          url,
           soapXMLData,
           id,
-          certificado, 
+          certificado,
           passphase,
           timeout: defaultConfig.timeout,
 
-          path: './workerConsultaSET.ts'
+          path: "./workerConsultaSET.ts",
         });
 
-
         const runService = (WorkerData: any) => {
-        
-            return new Promise((resolve, reject) => {
-        
-              const worker = new Worker('./workerConsultaLote', { workerData : { 
-                  url, 
-                  soapXMLData,
-                  certificado, 
-                  passphase,        
-                  id,
-                  timeout: defaultConfig.timeout,
+          return new Promise((resolve, reject) => {
+            const worker = new Worker("./workerConsultaLote", {
+              workerData: {
+                url,
+                soapXMLData,
+                certificado,
+                passphase,
+                id,
+                timeout: defaultConfig.timeout,
 
-                  path: './workerConsultaLote.ts'
-                }
-              });
-        
-                worker.on('message', resolve);
-        
-                worker.on('error', reject);
-        
-                worker.on('exit', (code) => {
-        
-                    if (code !== 0)
-        
-                        reject(new Error(`stopped with  ${code} exit code`));
-        
-                })
-        
-            })
-        
-        }
-        
+                path: "./workerConsultaLote.ts",
+              },
+            });
+
+            worker.on("message", resolve);
+
+            worker.on("error", reject);
+
+            worker.on("exit", (code) => {
+              if (code !== 0)
+                reject(new Error(`stopped with  ${code} exit code`));
+            });
+          });
+        };
+
         const run = async () => {
-        
-            const result = await runService('hello node.js')
-        
-            console.log(result);
-        
-        }
-        
-        run().catch(err => console.error(err))        
+          const result = await runService("hello node.js");
 
+          console.log(result);
+        };
 
-      /*
+        run().catch((err) => console.error(err));
+
+        /*
         axios
           .post(`${url}`, soapXMLData, {
             headers: {
@@ -475,7 +464,7 @@ class SET {
       }
     });
   }
-  
+
   /**
    *
    * @param xml
