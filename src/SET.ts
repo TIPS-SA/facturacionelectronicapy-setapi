@@ -665,7 +665,7 @@ class SET {
         soapXMLData = this.normalizeXML(soapXMLData);
 
         if (defaultConfig.debug === true) {
-          console.log("soapXMLData", soapXMLData);
+          console.log("url", url, "soapXMLData", soapXMLData);
         }
         if (defaultConfig.saveRequestFile) {
           const json = fs.writeFileSync(
@@ -827,7 +827,7 @@ class SET {
         soapXMLData = this.normalizeXML(soapXMLData);
 
         if (defaultConfig.debug === true) {
-          console.log("soapXMLData", soapXMLData);
+          console.log("url", url, "soapXMLData", soapXMLData);
         }
 
         if (defaultConfig.saveRequestFile) {
