@@ -395,7 +395,7 @@ class SET {
         soapXMLData = this.normalizeXML(soapXMLData);
 
         if (defaultConfig.debug === true) {
-          console.log("soapXMLData", soapXMLData);
+          console.log("url", url, "consultaLote-soapXMLData", soapXMLData);
         }
 
         if (defaultConfig.saveRequestFile) {
@@ -654,7 +654,7 @@ class SET {
         soapXMLData = this.normalizeXML(soapXMLData);
 
         if (defaultConfig.debug === true) {
-          console.log("url", url, "soapXMLData", soapXMLData);
+          console.log("url", url, "recibe - soapXMLData", soapXMLData);
         }
         if (defaultConfig.saveRequestFile) {
           const json = fs.writeFileSync(
