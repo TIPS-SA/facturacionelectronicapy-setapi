@@ -1,5 +1,5 @@
 # Facturación Electrónica - Api SET
-API de comunicación con la SET - Subsecretaría de estado de Tributación, para envío de los documentos electrónicos y consultas de datos de Facturas electrónicas.
+API de comunicación con SIFEN - Subsecretaría de estado de Tributación, para envío de los documentos electrónicos y consultas de datos de Facturas electrónicas.
 
 ## Instalación
 
@@ -30,7 +30,7 @@ setApi
 .then(xml => console.log("XML con QR", xml));
 
 ```
-## Envio de evento a la SET
+## Envio de evento a SIFEN
 
 TypeScript:
 ```typescript
@@ -41,7 +41,7 @@ setApi
 .then(xml => console.log("XML con QR", xml));
 
 ```
-## Consulta de Documentos electrónicos desde la SET
+## Consulta de Documentos electrónicos desde SIFEN
 
 TypeScript:
 ```typescript
@@ -85,7 +85,7 @@ https://github.com/marcosjara/facturacionelectronicapy-xmlgen
 [Generación de XML](https://www.npmjs.com/package/facturacionelectronicapy-xmlgen)<br/>
 [Firma de XML](https://www.npmjs.com/package/facturacionelectronicapy-xmlsign)<br/>
 [Generación de QR](https://www.npmjs.com/package/facturacionelectronicapy-qrgen)<br/>
-[API de la SET](https://www.npmjs.com/package/facturacionelectronicapy-setapi)<br/>
+[API de SIFEN](https://www.npmjs.com/package/facturacionelectronicapy-setapi)<br/>
 [Generación KUDE](https://www.npmjs.com/package/facturacionelectronicapy-kude)<br/>
 
 ## Empresas que utilizan éstos proyectos

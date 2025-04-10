@@ -14,7 +14,7 @@ class SET {
   private key: any;
 
   /**
-   * Crea los certificados para authenticarse a la SET.
+   * Crea los certificados para authenticarse a SIFEN.
    * @param certificado
    * @param passphase
    * /
@@ -124,13 +124,13 @@ class SET {
                   });
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
-                  reject(new Error("Error de la SET BIG-IP logout page"));
+                  reject(new Error("Error SIFEN BIG-IP logout page"));
                 } else {
                   reject(new Error(respuestaSuccess.data + ""));
                 }
               }
             } else {
-              reject(new Error("Error de conexión con la SET"));
+              reject(new Error("Error de conexión con SIFEN"));
             }
           })
           .catch((err: any) => {
@@ -159,7 +159,7 @@ class SET {
   }
 
   /**
-   * Consulta un lote en la SET
+   * Consulta un lote en SIFEN
    * @param id
    * @param numeroProtocolo
    * @returns
@@ -299,13 +299,13 @@ class SET {
                   });
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
-                  reject(new Error("Error de la SET BIG-IP logout page"));
+                  reject(new Error("Error SIFEN BIG-IP logout page"));
                 } else {
                   reject(new Error(respuestaSuccess.data + ""));
                 }
               }
             } else {
-              reject(new Error("Error de conexión con la SET"));
+              reject(new Error("Error de conexión con SIFEN"));
             }
           })
           .catch((err: any) => {
@@ -337,7 +337,7 @@ class SET {
   }
 
   /**
-   * Consulta un lote en la SET
+   * Consulta un lote en SIFEN
    * @param id
    * @param numeroProtocolo
    * @returns
@@ -431,13 +431,13 @@ class SET {
                   });
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
-                  reject(new Error("Error de la SET BIG-IP logout page"));
+                  reject(new Error("Error SIFEN BIG-IP logout page"));
                 } else {
                   reject(new Error(respuestaSuccess.data + ""));
                 }
               }
             } else {
-              reject(new Error("Error de conexión con la SET"));
+              reject(new Error("Error de conexión con SIFEN"));
             }
           })
           .catch((err: any) => {
@@ -560,14 +560,14 @@ class SET {
                   });
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
-                  reject(new Error("Error de la SET BIG-IP logout page"));
+                  reject(new Error("Error SIFEN BIG-IP logout page"));
                 } else {
                   reject(new Error(respuestaSuccess.data + ""));
                 }
               }
             } else {
-              //reject(new Error("Error en la respuesta de comunicación con la SET " + respuestaSuccess.data));
-              reject(new Error("Error de conexión con la SET"));
+              //reject(new Error("Error en la respuesta de comunicación con SIFEN " + respuestaSuccess.data));
+              reject(new Error("Error de conexión con SIFEN"));
             }
           })
           .catch((err: any) => {
@@ -596,7 +596,7 @@ class SET {
   }
 
   /**
-   * Envia el Documento electronico a la SET
+   * Envia el Documento electronico a SIFEN
    * https://sifen.set.gov.py/de/ws/sync/recibe.wsdl
    * @param xml
    * @returns
@@ -691,14 +691,14 @@ class SET {
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
                   //console.log("setApi - recibe " + respuestaSuccess.data);
-                  reject(new Error("Error de la SET BIG-IP logout page"));
+                  reject(new Error("Error SIFEN BIG-IP logout page"));
                 } else {
                   reject(new Error(respuestaSuccess.data + ""));
                 }
               }
             } else {
-              //reject(new Error("Error en la respuesta de comunicación con la SET " + respuestaSuccess.data));
-              reject(new Error("Error de conexión con la SET"));
+              //reject(new Error("Error en la respuesta de comunicación con SIFEN " + respuestaSuccess.data));
+              reject(new Error("Error de conexión con SIFEN"));
             }
           })
           .catch((err: any) => {
@@ -727,7 +727,7 @@ class SET {
   }
 
   /**
-   * Envia el Documento electronico por lote a la SET
+   * Envia el Documento electronico por lote a SIFEN
    * https://sifen.set.gov.py/de/ws/async/recibe-lote.wsdl
    * @param xmls
    * @returns
@@ -856,13 +856,13 @@ class SET {
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
                   //console.log("setApi - recibe " + respuestaSuccess.data);
-                  reject(new Error("Error de la SET BIG-IP logout page"));
+                  reject(new Error("Error SIFEN BIG-IP logout page"));
                 } else {
                   reject(new Error(respuestaSuccess.data + ""));
                 }
               }
             } else {
-              reject(new Error("Error de conexión con la SET"));
+              reject(new Error("Error de conexión con SIFEN"));
             }
           })
           .catch((err: any) => {
@@ -975,13 +975,13 @@ class SET {
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
                   //console.log("setApi - recibe " + respuestaSuccess.data);
-                  reject(new Error("Error de la SET BIG-IP logout page"));
+                  reject(new Error("Error SIFEN BIG-IP logout page"));
                 } else {
                   reject(new Error(respuestaSuccess.data + ""));
                 }
               }
             } else {
-              reject(new Error("Error de conexión con la SET"));
+              reject(new Error("Error de conexión con SIFEN"));
             }
           })
           .catch((err: any) => {

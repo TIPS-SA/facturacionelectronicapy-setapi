@@ -49,13 +49,13 @@ axios
           });
       } else {
         if ((respuestaSuccess.data + "").startsWith("<html>")) {
-          throw new Error("Error de la SET BIG-IP logout page");
+          throw new Error("Error SIFEN BIG-IP logout page");
         } else {
           throw new Error(respuestaSuccess.data + "");
         }
       }
     } else {
-      throw new Error("Error de conexión con la SET");
+      throw new Error("Error de conexión con SIFEN");
     }
   })
   .catch((err: any) => {

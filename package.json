@@ -1,7 +1,7 @@
 {
   "name": "facturacionelectronicapy-setapi",
   "version": "1.0.30",
-  "description": "Módulo NodeJs para enviar el Archivo XML Firmado para la Facturación Electrónica en Paraguay a la SET",
+  "description": "Módulo NodeJs para enviar el Archivo XML Firmado para la Facturación Electrónica en Paraguay a SIFEN",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
