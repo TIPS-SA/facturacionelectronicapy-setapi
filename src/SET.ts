@@ -124,8 +124,22 @@ class SET {
                   });
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
+                  //imprimir log solo si hay posible error
+                  if (defaultConfig.debug === true) {
+                    console.log(
+                      "consultaCDC. response",
+                      respuestaSuccess.data
+                    );
+                  }
                   reject(new Error("Error SIFEN BIG-IP logout page"));
                 } else {
+                  //imprimir log solo si hay posible error
+                  if (defaultConfig.debug === true) {
+                    console.log(
+                      "consultaCDC. response",
+                      respuestaSuccess.data
+                    );
+                  }
                   reject(new Error(respuestaSuccess.data + ""));
                 }
               }
@@ -431,8 +445,22 @@ class SET {
                   });
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
+                  //imprimir log solo si hay posible error
+                  if (defaultConfig.debug === true) {
+                    console.log(
+                      "consultaLote. response",
+                      respuestaSuccess.data
+                    );
+                  }
                   reject(new Error("Error SIFEN BIG-IP logout page"));
                 } else {
+                  //imprimir log solo si hay posible error
+                  if (defaultConfig.debug === true) {
+                    console.log(
+                      "consultaLote. response",
+                      respuestaSuccess.data
+                    );
+                  }
                   reject(new Error(respuestaSuccess.data + ""));
                 }
               }
@@ -707,8 +735,22 @@ class SET {
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
                   //console.log("setApi - recibe " + respuestaSuccess.data);
+                  //imprimir log solo si hay posible error
+                  if (defaultConfig.debug === true) {
+                    console.log(
+                      "recibe. response",
+                      respuestaSuccess.data
+                    );
+                  }
                   reject(new Error("Error SIFEN BIG-IP logout page"));
                 } else {
+                  //imprimir log solo si hay posible error
+                  if (defaultConfig.debug === true) {
+                    console.log(
+                      "recibe. response",
+                      respuestaSuccess.data
+                    );
+                  }
                   reject(new Error(respuestaSuccess.data + ""));
                 }
               }
@@ -872,8 +914,20 @@ class SET {
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
                   //console.log("setApi - recibe " + respuestaSuccess.data);
+                  if (defaultConfig.debug === true) {
+                    console.log(
+                      "recibeLote. response",
+                      respuestaSuccess.data
+                    );
+                  }
                   reject(new Error("Error SIFEN BIG-IP logout page"));
                 } else {
+                  if (defaultConfig.debug === true) {
+                    console.log(
+                      "recibeLote. response",
+                      respuestaSuccess.data
+                    );
+                  }
                   reject(new Error(respuestaSuccess.data + ""));
                 }
               }
@@ -991,8 +1045,22 @@ class SET {
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
                   //console.log("setApi - recibe " + respuestaSuccess.data);
+                  //imprimir log solo si hay posible error
+                  if (defaultConfig.debug === true) {
+                    console.log(
+                      "evento. response",
+                      respuestaSuccess.data
+                    );
+                  }
                   reject(new Error("Error SIFEN BIG-IP logout page"));
                 } else {
+                  //imprimir log solo si hay posible error
+                  if (defaultConfig.debug === true) {
+                    console.log(
+                      "evento. response",
+                      respuestaSuccess.data
+                    );
+                  }
                   reject(new Error(respuestaSuccess.data + ""));
                 }
               }
