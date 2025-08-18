@@ -1,6 +1,6 @@
 {
   "name": "facturacionelectronicapy-setapi",
-  "version": "1.0.30",
+  "version": "1.0.31",
   "description": "Módulo NodeJs para enviar el Archivo XML Firmado para la Facturación Electrónica en Paraguay a SIFEN",
   "main": "dist/index.js",
   "scripts": {
