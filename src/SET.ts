@@ -523,7 +523,7 @@ class SET {
         soapXMLData = this.normalizeXML(soapXMLData);
 
         if (defaultConfig.debug === true) {
-          console.log("soapXMLData", soapXMLData);
+          console.log("rEnviConsRUC. request", soapXMLData);
         }
 
         if (defaultConfig.saveRequestFile) {
@@ -560,8 +560,20 @@ class SET {
                   });
               } else {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
+
+                  //imprimir log solo si hay posible error
+                  if (defaultConfig.debug === true) {
+                    console.log("rEnviConsRUC. response", respuestaSuccess.data);
+                  }
+
                   reject(new Error("Error SIFEN BIG-IP logout page"));
                 } else {
+
+                  //imprimir log solo si hay posible error
+                  if (defaultConfig.debug === true) {
+                    console.log("rEnviConsRUC. response", respuestaSuccess.data);
+                  }
+
                   reject(new Error(respuestaSuccess.data + ""));
                 }
               }
