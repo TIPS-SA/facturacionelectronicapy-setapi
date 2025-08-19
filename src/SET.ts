@@ -88,7 +88,7 @@ class SET {
         soapXMLData = this.normalizeXML(soapXMLData);
 
         if (defaultConfig.debug === true) {
-          console.log("soapXMLData", soapXMLData);
+          console.log("url", url, "consultaCDC. soapXMLData", soapXMLData);
         }
         if (defaultConfig.saveRequestFile) {
           const json = fs.writeFileSync(
@@ -172,7 +172,7 @@ class SET {
    * @param numeroProtocolo
    * @returns
    */
-  consultaLote2222(
+  /*consultaLote2222(
     id: number,
     numeroProtocolo: number,
     env: "test" | "prod",
@@ -210,7 +210,7 @@ class SET {
         /*const httpsAgent = new https.Agent({
           cert: Buffer.from(this.cert, "utf8"),
           key: Buffer.from(this.key, "utf8"),
-        });*/
+        });* /
 
         let soapXMLData = `<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
                             <env:Header/>\n\
@@ -336,13 +336,13 @@ class SET {
           });
 
 
-          */
+          * /
       } catch (error) {
         console.log("CAtch en error 2222", error);
         reject(error);
       }
     });
-  }
+  }*/
 
   /**
    * Consulta un lote en SIFEN
@@ -403,7 +403,7 @@ class SET {
         soapXMLData = this.normalizeXML(soapXMLData);
 
         if (defaultConfig.debug === true) {
-          console.log("url", url, "consultaLote-soapXMLData", soapXMLData);
+          console.log("url", url, "consultaLote. soapXMLData", soapXMLData);
         }
 
         if (defaultConfig.saveRequestFile) {
@@ -545,7 +545,7 @@ class SET {
         soapXMLData = this.normalizeXML(soapXMLData);
 
         if (defaultConfig.debug === true) {
-          console.log("rEnviConsRUC. request", soapXMLData);
+          console.log("consultaRUC. request", soapXMLData);
         }
 
         if (defaultConfig.saveRequestFile) {
@@ -585,7 +585,7 @@ class SET {
                   //imprimir log solo si hay posible error
                   if (defaultConfig.debug === true) {
                     console.log(
-                      "rEnviConsRUC. response",
+                      "consultaRUC. response",
                       respuestaSuccess.data
                     );
                   }
@@ -595,7 +595,7 @@ class SET {
                   //imprimir log solo si hay posible error
                   if (defaultConfig.debug === true) {
                     console.log(
-                      "rEnviConsRUC. response",
+                      "consultaRUC. response",
                       respuestaSuccess.data
                     );
                   }
@@ -862,7 +862,7 @@ class SET {
         soapXMLData = this.normalizeXML(soapXMLData);
 
         if (defaultConfig.debug === true) {
-          console.log("url", url, "soapXMLData", soapXMLData);
+          console.log("url", url, "recibe. soapXMLData", soapXMLData);
         }
 
         if (defaultConfig.saveRequestFile) {
@@ -991,7 +991,7 @@ class SET {
         let soapXMLData = this.normalizeXML(xml); //Para el evento, el xml ya viene con SoapData
 
         if (defaultConfig.debug === true) {
-          console.log("soapXMLData", soapXMLData);
+          console.log("url", url, "evento. soapXMLData", soapXMLData);
         }
 
         if (defaultConfig.saveRequestFile) {
