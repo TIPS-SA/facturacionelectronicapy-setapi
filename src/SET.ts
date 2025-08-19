@@ -207,7 +207,7 @@ class SET {
           reject("Antes debe autenticarse");
         }*/
 
-        /*const httpsAgent = new https.Agent({
+  /*const httpsAgent = new https.Agent({
           cert: Buffer.from(this.cert, "utf8"),
           key: Buffer.from(this.key, "utf8"),
         });* /
@@ -584,20 +584,14 @@ class SET {
                 if ((respuestaSuccess.data + "").startsWith("<html>")) {
                   //imprimir log solo si hay posible error
                   if (defaultConfig.debug === true) {
-                    console.log(
-                      "consultaRUC. response",
-                      respuestaSuccess.data
-                    );
+                    console.log("consultaRUC. response", respuestaSuccess.data);
                   }
 
                   reject(new Error("Error SIFEN BIG-IP logout page"));
                 } else {
                   //imprimir log solo si hay posible error
                   if (defaultConfig.debug === true) {
-                    console.log(
-                      "consultaRUC. response",
-                      respuestaSuccess.data
-                    );
+                    console.log("consultaRUC. response", respuestaSuccess.data);
                   }
 
                   reject(new Error(respuestaSuccess.data + ""));
