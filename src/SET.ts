@@ -545,7 +545,7 @@ class SET {
         soapXMLData = this.normalizeXML(soapXMLData);
 
         if (defaultConfig.debug === true) {
-          console.log("consultaRUC. request", soapXMLData);
+          console.log("url", url, "consultaRUC. request", soapXMLData);
         }
 
         if (defaultConfig.saveRequestFile) {
