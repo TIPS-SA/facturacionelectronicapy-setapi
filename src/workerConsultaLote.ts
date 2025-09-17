@@ -59,7 +59,7 @@ axios
     }
   })
   .catch((err: any) => {
-    console.log("CAtch en error 1111", err);
+    console.log("CAtch en error 1111-b", err);
     if (err && err.response && err.response.data) {
       var xmlResponse = err.response.data;
       var parser = new xml2js.Parser({ explicitArray: false });
