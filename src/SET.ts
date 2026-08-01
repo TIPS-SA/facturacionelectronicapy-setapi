@@ -151,6 +151,7 @@ class SET {
                 .then(function (result) {
                   const resultData = result["env:Envelope"]["env:Body"];
                   resultData.id = id;
+                  resultData.statusCode = err.response.status;
                   resolve(resultData);
                 })
                 .catch(function (err) {
@@ -285,7 +286,6 @@ class SET {
             }
           })
           .catch((err: any) => {
-            console.log("CAtch en error 1111", err);
             if (err && err.response && err.response.data) {
               var xmlResponse = err.response.data;
               var parser = new xml2js.Parser({ explicitArray: false });
@@ -293,7 +293,10 @@ class SET {
               parser
                 .parseStringPromise(xmlResponse)
                 .then(function (result) {
-                  resolve(result["env:Envelope"]["env:Body"]);
+                  const resultData = result["env:Envelope"]["env:Body"];
+                  resultData.id = id;
+                  resultData.statusCode = err.response.status;
+                  resolve(resultData);
                 })
                 .catch(function (err) {
                   reject(err);
@@ -434,6 +437,7 @@ class SET {
                 .then(function (result) {
                   const resultData = result["env:Envelope"]["env:Body"];
                   resultData.id = id;
+                  resultData.statusCode = err.response.status;
                   resolve(resultData);
                 })
                 .catch(function (err) {
@@ -572,7 +576,8 @@ class SET {
                 .parseStringPromise(xmlResponse)
                 .then(function (result) {
                   const resultData = result["env:Envelope"]["env:Body"];
-                  resultData["id"] = id;
+                  resultData.id = id;
+                  resultData.statusCode = err.response.status;
                   resolve(resultData);
                 })
                 .catch(function (err) {
@@ -741,12 +746,9 @@ class SET {
               parser
                 .parseStringPromise(xmlResponse)
                 .then(function (result) {
-                  const resultData =
-                    /*result["env:Envelope"]["env:Body"]["ns2:rRetEnviDe"][
-                    "ns2:rProtDe"
-                  ];*/
-                    result["env:Envelope"]["env:Body"];
-                  resultData["id"] = id;
+                  const resultData = result["env:Envelope"]["env:Body"];
+                  resultData.id = id;
+                  resultData.statusCode = err.response.status;
                   resolve(resultData);
                 })
                 .catch(function (err) {
@@ -870,6 +872,7 @@ class SET {
                 .then(function (result) {
                   const resultData = result["env:Envelope"]["env:Body"];
                   resultData.id = id;
+                  resultData.statusCode = err.response.status;
                   resolve(resultData);
                 })
                 .catch(function (err) {
