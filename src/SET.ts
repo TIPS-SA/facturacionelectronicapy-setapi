@@ -105,6 +105,7 @@ class SET {
             },
             httpsAgent,
             timeout: defaultConfig.timeout,
+            signal: defaultConfig.signal,
           })
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
@@ -244,6 +245,7 @@ class SET {
             },
             httpsAgent,
             timeout: defaultConfig.timeout,
+            signal: defaultConfig.signal,
           })
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
@@ -388,6 +390,7 @@ class SET {
             },
             httpsAgent,
             timeout: defaultConfig.timeout,
+            signal: defaultConfig.signal,
           })
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
@@ -529,6 +532,7 @@ class SET {
             },
             httpsAgent,
             timeout: defaultConfig.timeout,
+            signal: defaultConfig.signal,
           })
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
@@ -701,6 +705,7 @@ class SET {
             },
             httpsAgent,
             timeout: defaultConfig.timeout,
+            signal: defaultConfig.signal,
           })
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
@@ -827,6 +832,7 @@ class SET {
             },
             httpsAgent,
             timeout: defaultConfig.timeout,
+            signal: defaultConfig.signal,
           })
           .then((respuestaSuccess: any) => {
             var parser = new xml2js.Parser({ explicitArray: false });
