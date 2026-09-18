@@ -51,6 +51,7 @@ class SET {
         let defaultConfig: SetApiConfig = {
           debug: false,
           timeout: 90000,
+          caCert: null,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -70,10 +71,14 @@ class SET {
           reject("Antes debe autenticarse");
         }
 
-        const httpsAgent = new https.Agent({
+        const httpsAgentOptions: any = {
           cert: Buffer.from(this.cert, "utf8"),
           key: Buffer.from(this.key, "utf8"),
-        });
+        };
+        if (defaultConfig.caCert) {
+          httpsAgentOptions.ca = fs.readFileSync(defaultConfig.caCert);
+        }
+        const httpsAgent = new https.Agent(httpsAgentOptions);
 
         let soapXMLData = `<?xml version="1.0" encoding="UTF-8"?>\n\
                         <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
@@ -187,6 +192,7 @@ class SET {
         let defaultConfig: SetApiConfig = {
           debug: false,
           timeout: 90000,
+          caCert: null,
         };
 
         //console.log("El config del params viene ", config);
@@ -209,10 +215,14 @@ class SET {
           reject("Antes debe autenticarse");
         }
 
-        const httpsAgent = new https.Agent({
+        const httpsAgentOptions: any = {
           cert: Buffer.from(this.cert, "utf8"),
           key: Buffer.from(this.key, "utf8"),
-        });
+        };
+        if (defaultConfig.caCert) {
+          httpsAgentOptions.ca = fs.readFileSync(defaultConfig.caCert);
+        }
+        const httpsAgent = new https.Agent(httpsAgentOptions);
 
         let soapXMLData = `<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
                             <env:Header/>\n\
@@ -332,6 +342,7 @@ class SET {
         let defaultConfig: SetApiConfig = {
           debug: false,
           timeout: 90000,
+          caCert: null,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -352,13 +363,17 @@ class SET {
           reject("Antes debe autenticarse");
         }
 
-        const httpsAgent = new https.Agent({
+        const httpsAgentOptions: any = {
           cert: Buffer.from(this.cert, "utf8"),
           key: Buffer.from(this.key, "utf8"),
           /*maxVersion: "TLSv1.2",
                     minVersion: "TLSv1.2",
                     secureOptions : constants.SSL_OP_NO_SSLv2 | constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_TLSv1 | constants.SSL_OP_NO_TLSv1_1*/
-        });
+        };
+        if (defaultConfig.caCert) {
+          httpsAgentOptions.ca = fs.readFileSync(defaultConfig.caCert);
+        }
+        const httpsAgent = new https.Agent(httpsAgentOptions);
 
         let soapXMLData = `<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">\n\
                             <env:Header/>\n\
@@ -475,6 +490,7 @@ class SET {
         let defaultConfig: SetApiConfig = {
           debug: false,
           timeout: 90000,
+          caCert: null,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -494,10 +510,14 @@ class SET {
           reject("Antes debe autenticarse");
         }
 
-        const httpsAgent = new https.Agent({
+        const httpsAgentOptions: any = {
           cert: Buffer.from(this.cert, "utf8"),
           key: Buffer.from(this.key, "utf8"),
-        });
+        };
+        if (defaultConfig.caCert) {
+          httpsAgentOptions.ca = fs.readFileSync(defaultConfig.caCert);
+        }
+        const httpsAgent = new https.Agent(httpsAgentOptions);
 
         xml = xml.split("\n").slice(1).join("\n"); //Retirar <xml>
 
@@ -616,6 +636,7 @@ class SET {
         let defaultConfig: SetApiConfig = {
           debug: false,
           timeout: 90000,
+          caCert: null,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -666,12 +687,16 @@ class SET {
         const zipAsBase64 = await zip.generateAsync({ type: "base64" });
         //fs.writeFileSync(__dirname + '/zipped.zip', zipAsBase64);
 
-        const httpsAgent = new https.Agent({
+        const httpsAgentOptions: any = {
           cert: Buffer.from(this.cert, "utf8"),
           key: Buffer.from(this.key, "utf8"),
           //rejectUnauthorized: false,
           //minVersion: "TLSv1",
-        });
+        };
+        if (defaultConfig.caCert) {
+          httpsAgentOptions.ca = fs.readFileSync(defaultConfig.caCert);
+        }
+        const httpsAgent = new https.Agent(httpsAgentOptions);
 
         //axios.get(`${url}`, { httpsAgent }).then((respuesta: any) => {
         let soapXMLData = `<?xml version="1.0" encoding="UTF-8"?>\n\
@@ -787,6 +812,7 @@ class SET {
         let defaultConfig: SetApiConfig = {
           debug: false,
           timeout: 90000,
+          caCert: null,
         };
 
         defaultConfig = Object.assign(defaultConfig, config);
@@ -806,10 +832,14 @@ class SET {
           reject("Antes debe autenticarse");
         }
 
-        const httpsAgent = new https.Agent({
+        const httpsAgentOptions: any = {
           cert: Buffer.from(this.cert, "utf8"),
           key: Buffer.from(this.key, "utf8"),
-        });
+        };
+        if (defaultConfig.caCert) {
+          httpsAgentOptions.ca = fs.readFileSync(defaultConfig.caCert);
+        }
+        const httpsAgent = new https.Agent(httpsAgentOptions);
 
         let soapXMLData = this.normalizeXML(xml); //Para el evento, el xml ya viene con SoapData
 
